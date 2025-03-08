@@ -38,7 +38,7 @@ REQUEST_TO_JOIN_MODE = bool(environ.get('REQUEST_TO_JOIN_MODE', True)) # Set Tru
 TRY_AGAIN_BTN = bool(environ.get('TRY_AGAIN_BTN', True)) # Set True Or False (This try again button is only for request to join fsub not for normal fsub)
 
 # আগের কোডে যে ভাবে AUTH_CHANNEL এবং EXTRA_AUTH_CHANNELS ডিফাইন করেছিলাম, সেই অনুযায়ী
-auth_channel = environ.get('AUTH_CHANNEL', '-1002388651556')  # মূল Force Subscribe চ্যানেল
+auth_channel = environ.get('AUTH_CHANNEL', '-1002191242009')  # মূল Force Subscribe চ্যানেল
 AUTH_CHANNEL = int(auth_channel) if auth_channel and id_pattern.search(auth_channel) else None
 
 extra_auth_channels = environ.get('EXTRA_AUTH_CHANNELS', '-1002245813234')  # অতিরিক্ত চ্যানেল
@@ -81,7 +81,7 @@ CHNL_LNK = environ.get('CHNL_LNK', 'https://t.me/MHBDOFFICIALS')
 MAINCHANL_LNK = environ.get('MAINCHANL_LNK', 'https://t.me/cinelolbd')
 PSUP_LNK = environ.get('PSUP_LNK', 'https://t.me/MHBDDiscussionGruop')
 TUTORIAL = environ.get('TUTORIAL', 'https://t.me/Prime_Movie_Watch_Dawnload/75')
-SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'Prime_Movie4U') # Support Chat Link Without https:// or @
+SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'MHBDDiscussionGruop') # Support Chat Link Without https:// or @
 
 # True Or False
 AI_SPELL_CHECK = bool(environ.get('AI_SPELL_CHECK', True))
