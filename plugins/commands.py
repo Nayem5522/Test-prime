@@ -35,7 +35,7 @@ async def start(client, message):
         ],[
             InlineKeyboardButton('✇ Jᴏɪɴ Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ ✇', url=CHNL_LNK)
         ],[
-            InlineKeyboardButton('💫 𝗔𝗻𝘆 𝗣𝗿𝗼𝗯𝗹𝗲𝗺 𝗖𝗼𝗻𝗻𝗲𝗰𝘁 𝗔𝗱𝗺𝗶𝗻 💫', url='https://t.me/Prime_Admin_Support_ProBot')
+            InlineKeyboardButton('✧ ᴄʀᴇᴀᴛᴏʀ ✧', url='https://t.me/Prime_Nayem')
         ]]
         
         reply_markup = InlineKeyboardMarkup(buttons)
@@ -60,11 +60,11 @@ async def start(client, message):
                 InlineKeyboardButton('◇ ʜᴇʟᴘ ◇', callback_data='help'),
                 InlineKeyboardButton('⍟ Aʙᴏᴜᴛ ⍟', callback_data='about')
             ],[
-                InlineKeyboardButton('💳 ⭐ 𝗥𝗲𝗺𝗼𝘃𝗲 𝗔𝗱𝘀 𝗚𝗲𝘁 𝗗𝗶𝗿𝗲𝗰𝘁 𝗙𝗶𝗹𝗲 ⭐ 💳', callback_data="buy_premium")
+                InlineKeyboardButton('💳 ⭐ ʀᴇᴍᴏᴠᴇ ᴀᴅs ᴛᴏ ɢᴇᴛ ᴅɪʀᴇᴄᴛ ғɪʟᴇs ⭐ 💳', callback_data="buy_premium")
             ],[
                 InlineKeyboardButton('✇ Jᴏɪɴ Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ ✇', url=CHNL_LNK)       
             ],[
-                InlineKeyboardButton('✧ 𝗖𝗥𝗘𝗔𝗧𝗢𝗥 ✧', url='https://t.me/Prime_Nayem')
+                InlineKeyboardButton('✧ ᴄʀᴇᴀᴛᴏʀ ✧', url='https://t.me/Prime_Nayem')
             ]]
             
         else:
@@ -79,7 +79,7 @@ async def start(client, message):
             ],[
                 InlineKeyboardButton('✇ Jᴏɪɴ Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ ✇', url=CHNL_LNK)           
             ],[
-                InlineKeyboardButton('💫 𝗖𝗥𝗘𝗔𝗧𝗢𝗥 💫', url='https://t.me/Prime_Nayem')
+                InlineKeyboardButton('✧ ᴄʀᴇᴀᴛᴏʀ ✧', url='https://t.me/Prime_Nayem')
             ]]
             
         if CLONE_MODE == True:
@@ -132,7 +132,7 @@ async def start(client, message):
             text = "**🕵️ Jᴏɪɴ Tʜᴇ Uᴘᴅᴀᴛᴇ Cʜᴀɴɴᴇʟ Tᴏ Gᴇᴛ Mᴏᴠɪᴇ Fɪʟᴇ\n\n👨‍💻 Fɪʀsᴛ  Cʟɪᴄᴋ Oɴ Jᴏɪɴ Uᴘᴅᴀᴛᴇ Cʜᴀɴɴᴇʟ Bᴜᴛᴛᴏɴ, Tʜᴇɴ Jᴏɪɴ Cʜᴀɴɴᴇʟ Aғᴛᴇʀ Cʟɪᴄᴋ Oɴ Tʀʏ Aɢᴀɪɴ Bᴜᴛᴛᴏɴ**"
         await client.send_photo(
             chat_id=message.from_user.id,
-            photo="https://envs.sh/AHX.jpg",  # আপনার ছবির ফাইল পাথ
+            photo="https://i.ibb.co/pvZV1qhf/photo-2025-03-01-11-42-50-7479466897788895252.jpg",  # আপনার ছবির ফাইল পাথ
             caption=text,
             reply_markup=InlineKeyboardMarkup(btn),
             parse_mode=enums.ParseMode.MARKDOWN
@@ -150,11 +150,11 @@ async def start(client, message):
                 InlineKeyboardButton('◇ ʜᴇʟᴘ ◇', callback_data='help'),
                 InlineKeyboardButton('⍟ Aʙᴏᴜᴛ ⍟', callback_data='about')
             ],[                
-                InlineKeyboardButton('💳 ⭐ 𝗥𝗲𝗺𝗼𝘃𝗲 𝗔𝗱𝘀 𝗚𝗲𝘁 𝗗𝗶𝗿𝗲𝗰𝘁 𝗙𝗶𝗹𝗲 ⭐ 💳', callback_data="buy_premium")
+                InlineKeyboardButton('💳 ⭐ ʀᴇᴍᴏᴠᴇ ᴀᴅs ᴛᴏ ɢᴇᴛ ᴅɪʀᴇᴄᴛ ғɪʟᴇs ⭐ 💳', callback_data="buy_premium")
             ],[
                 InlineKeyboardButton('✇ Jᴏɪɴ Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ ✇', url=CHNL_LNK)
             ],[
-                InlineKeyboardButton('✧ 𝗖𝗥𝗘𝗔𝗧𝗢𝗥 ✧', url='https://t.me/Prime_Nayem')
+                InlineKeyboardButton('✧ ᴄʀᴇᴀᴛᴏʀ ✧', url='https://t.me/Prime_Nayem')
             ]]
             
         else:
@@ -210,11 +210,11 @@ async def start(client, message):
                     InlineKeyboardButton('◇ ʜᴇʟᴘ ◇', callback_data='help'),
                     InlineKeyboardButton('⍟ Aʙᴏᴜᴛ ⍟', callback_data='about')
                 ],[
-                    InlineKeyboardButton('💳 ⭐ 𝗥𝗲𝗺𝗼𝘃𝗲 𝗔𝗱𝘀 𝗚𝗲𝘁 𝗗𝗶𝗿𝗲𝗰𝘁 𝗙𝗶𝗹𝗲 ⭐ 💳', callback_data="buy_premium")
+                    InlineKeyboardButton('💳 ⭐ ʀᴇᴍᴏᴠᴇ ᴀᴅs ᴛᴏ ɢᴇᴛ ᴅɪʀᴇᴄᴛ ғɪʟᴇs ⭐ 💳', callback_data="buy_premium")
                 ],[
                     InlineKeyboardButton('✇ Jᴏɪɴ Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ ✇', url=CHNL_LNK)
                 ],[
-                    InlineKeyboardButton('✧ 𝗖𝗥𝗘𝗔𝗧𝗢𝗥 ✧', url='https://t.me/Prime_Nayem')
+                    InlineKeyboardButton('✧ ᴄʀᴇᴀᴛᴏʀ ✧', url='https://t.me/Prime_Nayem')
                 ]]
             else:
                 buttons = [[
