@@ -235,13 +235,13 @@ Nᴀᴍᴇ - {}
 
 𝗠𝗲𝘀𝘀𝗮𝗴𝗲 <b>: {}</b>"""
 
-    CAPTION = """📂 <b>Filename:</b> {file_name}
+    CAPTION = """📂 <b>Filename:</b> file_name
 
 <b> Size ⚙️: {file_size}</b>
 
 •────•────✦✗✦───•────•
 
-<b>ᴊᴏɪɴ ɴᴏᴡ ➠ :</b> <a href='https://t.me/mhmoviebackup'>ᴍʀ.ʙᴀᴄᴋ-ᴜᴘ</a>
+<b>ᴊᴏɪɴ ɴᴏᴡ ➠ :</b> <a href='https://t.me/mhmoviebackup'>ᴍʀ.ʙᴀᴄᴋ ᴜᴘ</a>
 """
 
     IMDB_TEMPLATE_TXT = """
