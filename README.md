@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="https://graph.org/file/d57d6f83abb6b8d0efb02.jpg" alt="VJ-Filter-Bot Logo">
+  <img src="https://i.ibb.co/NgCLVPwd/photo-2025-01-29-15-48-00-7479215143985872900.jpg" alt="PRIME-IPAPKORNPRIME-FILTER-BOT Logo">
 </p>
 <h1 align="center">
-  VJ FILTER BOT
+  PRIME IPAPKORNPRIME FILTER BOT
 </h1>
 
 ![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=Welcome+To+VJ+Filter+Bot!)
@@ -31,10 +31,6 @@
 - [x] Send All Button 
 - [x] Custom Tutorial Button
 - [x] Bot Pm File Auto Delete 
-
-Join My <a href='https://telegram.dog/vj_botz'>Update Channel</a> For More Update Regarding Repo.</b>
-
-### How To Deploy : [Video Tutorial](https://youtu.be/J5tiWdc_AWM)
 
 ## Commands
 ```
@@ -113,14 +109,14 @@ Join My <a href='https://telegram.dog/vj_botz'>Update Channel</a> For More Updat
 * `API_HASH`: Get this value from [telegram.org](https://my.telegram.org/apps)
 * `CHANNELS`: Username or ID of channel or group. Separate multiple IDs by space
 * `ADMINS`: Username or ID of Admin. Separate multiple Admins by space
-* `DATABASE_URI`: [mongoDB](https://www.mongodb.com) URI. Get this value from [mongoDB](https://www.mongodb.com). For more help watch this [video](https://youtu.be/I36_OTWvT2w)
+* `DATABASE_URI`: [mongoDB](https://www.mongodb.com) URI. Get this value from [mongoDB](https://www.mongodb.com). For more help watch this
 * `DATABASE_NAME`: Name of the database in [mongoDB](https://www.mongodb.com).
 * `LOG_CHANNEL` : A channel to log the activities of bot. Make sure bot is an admin in the channel.</b>
 
 ### Optional Variables
 * <b>`PICS`: Telegraph links of images to show in start message.( Multiple images can be used separated by space )
 * `FILE_STORE_CHANNEL`: Channel from were file store links of posts should be made.Separate multiple IDs by space
-* Check [info.py](https://github.com/VJBots/VJ-Filter-Bot/blob/Tech_VJ/info.py) for more optional variables.</b>
+* Check for more optional variables.</b>
 
 
 <details><summary><b>Deploy To Heroku</b></summary>
@@ -189,25 +185,3 @@ Edit info.py with variables as given below then run bot
 <hr>
 
 
-## Thanks to 
- - <b>Thanks To [Pyrogram Library](https://github.com/pyrogram/pyrogram) & [Pyrofork Library](https://github.com/Mayuri-Chan/pyrofork)
- - Thanks To [Tech VJ](https://youtube.com/@Tech_VJ) To Modify And Add Amazing Feature In The Repo
- - Thanks To [Eva Marie](https://t.me/TeamEvamaria) For Base Repo
- - Thanks To All Everyone In This Journey</b>
-
-## Note 🏷️
- 
-* [![Contact Developer](https://img.shields.io/static/v1?label=Contact+Developer&message=On+Telegram&color=critical)](https://telegram.me/KingVJ01)
-
-<b>[Note To A So Called Dev](https://telegram.dog/vj_botz): 
-
-Fork The Repo And Edit As Per Your Needs.</b>
-
-## Disclaimer
-[![GNU Affero General Public License 2.0](https://www.gnu.org/graphics/agplv3-155x51.png)](https://www.gnu.org/licenses/agpl-3.0.en.html#header)    
-<b>Licensed under [GNU AGPL 2.0.](https://github.com/VJBots/VJ-Filter-Bot/blob/Tech_VJ/LICENSE)
-Selling The Codes To Other People For Money Is *Strictly Prohibited*.</b>
-
-</pre>
-</p>
-</details>
