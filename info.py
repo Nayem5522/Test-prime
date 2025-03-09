@@ -80,7 +80,7 @@ GRP_LNK = environ.get('GRP_LNK', 'https://t.me/cinelolmovie')
 CHNL_LNK = environ.get('CHNL_LNK', 'https://t.me/mhmoviebackup')
 MAINCHANL_LNK = environ.get('MAINCHANL_LNK', 'https://t.me/MHBDOFFICIALS')
 PSUP_LNK = environ.get('PSUP_LNK', 'https://t.me/MHBDDiscussionGruop')
-TUTORIAL = environ.get('TUTORIAL', 'https://t.me/MhMoviplex/1527')
+TUTORIAL = environ.get('TUTORIAL', 'https://t.me/Prime_Movie_Watch_Dawnload/75')
 SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'MHBDDiscussionGruop') # Support Chat Link Without https:// or @
 
 # True Or False
@@ -114,8 +114,8 @@ VERIFY_TUTORIAL = environ.get('VERIFY_TUTORIAL', 'https://t.me/Prime_Movie_Watch
 
 # Shortlink Info
 SHORTLINK_MODE = bool(environ.get('SHORTLINK_MODE', True))
-SHORTLINK_URL = environ.get('SHORTLINK_URL', 'smallshorts.com')
-SHORTLINK_API = environ.get('SHORTLINK_API', 'dad59ba72ea8d6200b249912d3b7f1161c05a9c5')
+SHORTLINK_URL = environ.get('SHORTLINK_URL', 'droplink.co')
+SHORTLINK_API = environ.get('SHORTLINK_API', 'd1e52488bac3d8297d89f895ed8ec64fd04253f8')
 
 # Others
 MAX_B_TN = environ.get("MAX_B_TN", "5")
