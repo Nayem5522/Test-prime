@@ -27,7 +27,7 @@ async def save_group(bot, message):
         if message.chat.id in temp.BANNED_CHATS:
             # Inspired from a boat of a banana tree
             buttons = [[
-                InlineKeyboardButton('〄 𝗦𝗨𝗣𝗣𝗢𝗥𝗧 𝗚𝗥𝗢𝗨𝗣 〄', url=f'https://t.me/Prime_Botz_Support')
+                InlineKeyboardButton('〄 𝗦𝗨𝗣𝗣𝗢𝗥𝗧 𝗚𝗥𝗢𝗨𝗣 〄', url=GRP_LNK)
             ]]
             reply_markup=InlineKeyboardMarkup(buttons)
             k = await message.reply(
@@ -42,10 +42,10 @@ async def save_group(bot, message):
             await bot.leave_chat(message.chat.id)
             return
         buttons = [[
-                    InlineKeyboardButton('🔥 ᴘʀɪᴍᴇ ʙᴏᴛᴢ 🔥', url=CHNL_LNK),
-                    InlineKeyboardButton('✨ ᴘʀɪᴍᴇ ᴍᴏᴠɪᴇꜱ ✨', url='https://t.me/Prime_Movies4U')
+                    InlineKeyboardButton('〄 ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ 〄', url=CHNL_LNK),
+                    InlineKeyboardButton('〄 ᴍᴏᴠɪᴇ ɢʀᴏᴜᴘ 〄', url=GRP_LNK)
                  ],[
-                    InlineKeyboardButton("〄 𝗦𝗨𝗣𝗣𝗢𝗥𝗧 𝗚𝗥𝗢𝗨𝗣 〄", url="https://t.me/Prime_Botz_Support")
+                    InlineKeyboardButton("✧ ᴄʀᴇᴀᴛᴏʀ ✧", url="https://t.me/Prime_Nayem")
                   ]]
         reply_markup=InlineKeyboardMarkup(buttons)
         await message.reply_text(
@@ -68,9 +68,9 @@ async def save_group(bot, message):
                                                                            InlineKeyboardButton('⌬ Aʟʟ Mᴏᴠɪᴇs Cʜᴀɴɴᴇʟ', url=f'https://t.me/{SUPPORT_CHAT}'),
                                                                            InlineKeyboardButton('✪ Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ ✪', url=CHNL_LNK)
                                                                        ],[
-                                                                           InlineKeyboardButton("〄 𝗦𝗨𝗣𝗣𝗢𝗥𝗧 𝗚𝗥𝗢𝗨𝗣 〄", url='https://t.me/Prime_Botz_Support')
-                                                                       ],[
                                                                            InlineKeyboardButton("🔍 𝗧𝗵𝗲 𝗣𝗿𝗶𝗺𝗲 𝗠𝗼𝘃𝗶𝗲𝘀 𝗥𝗲𝗾𝘂𝗲𝘀𝘁 𝗚𝗿𝗼𝘂𝗽 🔎", url=GRP_LNK)
+                                                                       ],[
+                                                                           InlineKeyboardButton("✧ ᴄʀᴇᴀᴛᴏʀ ✧", url='https://t.me/Prime_Nayem')
                                                                          ]]
                                                  ),
                                                  parse_mode=enums.ParseMode.HTML
@@ -91,10 +91,10 @@ async def leave_a_chat(bot, message):
         chat = chat
     try:
         buttons = [[
-            InlineKeyboardButton('✪ Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ ✪',url="https://t.me/Prime_Botz"),
-            InlineKeyboardButton("❤️‍🔥 Bᴏᴛ Oᴡɴᴇʀ ❤️‍🔥", url="t.me/Prime_Nayem")
+            InlineKeyboardButton('✪ Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ ✪',url=CHNL_LNK),
+            InlineKeyboardButton("✧ ᴄʀᴇᴀᴛᴏʀ ✧", url="t.me/Prime_Nayem")
         ],[
-            InlineKeyboardButton('〄 𝗦𝗨𝗣𝗣𝗢𝗥𝗧 𝗚𝗥𝗢𝗨𝗣 〄', url=f'https://t.me/Prime_Botz_Support')
+            InlineKeyboardButton('〄 𝗦𝗨𝗣𝗣𝗢𝗥𝗧 𝗚𝗥𝗢𝗨𝗣 〄', url=GRP_LNK)
         ]]
         reply_markup=InlineKeyboardMarkup(buttons)
         await bot.send_message(
@@ -133,7 +133,7 @@ async def disable_chat(bot, message):
     await message.reply('Chat Successfully Disabled')
     try:
         buttons = [[
-            InlineKeyboardButton('〄 𝗦𝗨𝗣𝗣𝗢𝗥𝗧 𝗚𝗥𝗢𝗨𝗣 〄', url=f'https://t.me/Prime_Botz_Support')
+            InlineKeyboardButton('〄 𝗦𝗨𝗣𝗣𝗢𝗥𝗧 𝗚𝗥𝗢𝗨𝗣 〄', url=GRP_LNK)
         ]]
         reply_markup=InlineKeyboardMarkup(buttons)
         await bot.send_message(
