@@ -5,7 +5,7 @@
   PRIME IPAPKORNPRIME FILTER BOT
 </h1>
 
-![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=Welcome+To+VJ+Filter+Bot!)
+![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=Welcome+To+PRIME+IPAPKORNPRIME+FILTER+BOT!)
 </p>
 
 ## Main Feature 
