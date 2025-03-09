@@ -80,7 +80,7 @@ GRP_LNK = environ.get('GRP_LNK', 'https://t.me/cinelolmovie')
 CHNL_LNK = environ.get('CHNL_LNK', 'https://t.me/mhmoviebackup')
 MAINCHANL_LNK = environ.get('MAINCHANL_LNK', 'https://t.me/MHBDOFFICIALS')
 PSUP_LNK = environ.get('PSUP_LNK', 'https://t.me/MHBDDiscussionGruop')
-TUTORIAL = environ.get('TUTORIAL', 'https://t.me/Prime_Movie_Watch_Dawnload/75')
+TUTORIAL = environ.get('TUTORIAL', 'https://t.me/MhMoviplex/1527')
 SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'MHBDDiscussionGruop') # Support Chat Link Without https:// or @
 
 # True Or False
@@ -142,7 +142,7 @@ REACTIONS = ["🤝", "😇", "🤗", "😍", "👍", "🎅", "😐", "🥰", "�
 
 
 # Online Stream and Download
-STREAM_MODE = bool(environ.get('STREAM_MODE', True)) # Set True or False
+STREAM_MODE = bool(environ.get('STREAM_MODE', False)) # Set True or False
 
 # If Stream Mode Is True Then Fill All Required Variable, If False Then Don't Fill.
 MULTI_CLIENT = False
