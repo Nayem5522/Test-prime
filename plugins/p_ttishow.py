@@ -45,7 +45,7 @@ async def save_group(bot, message):
                     InlineKeyboardButton('〄 ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ 〄', url=CHNL_LNK),
                     InlineKeyboardButton('〄 ᴍᴏᴠɪᴇ ɢʀᴏᴜᴘ 〄', url=GRP_LNK)
                  ],[
-                    InlineKeyboardButton("✧ ᴄʀᴇᴀᴛᴏʀ ✧", url="https://t.me/Prime_Nayem")
+                    InlineKeyboardButton("✧ ᴄʀᴇᴀᴛᴏʀ ✧", url="https://t.me/MR_PRIME_SUPREME")
                   ]]
         reply_markup=InlineKeyboardMarkup(buttons)
         await message.reply_text(
@@ -68,9 +68,9 @@ async def save_group(bot, message):
                                                                            InlineKeyboardButton('⌬ Aʟʟ Mᴏᴠɪᴇs Cʜᴀɴɴᴇʟ', url=f'https://t.me/{SUPPORT_CHAT}'),
                                                                            InlineKeyboardButton('✪ Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ ✪', url=CHNL_LNK)
                                                                        ],[
-                                                                           InlineKeyboardButton("🔍 𝗧𝗵𝗲 𝗣𝗿𝗶𝗺𝗲 𝗠𝗼𝘃𝗶𝗲𝘀 𝗥𝗲𝗾𝘂𝗲𝘀𝘁 𝗚𝗿𝗼𝘂𝗽 🔎", url=GRP_LNK)
+                                                                           InlineKeyboardButton("🔍 𝗠𝗼𝘃𝗶𝗲𝘀 𝗥𝗲𝗾𝘂𝗲𝘀𝘁 𝗚𝗿𝗼𝘂𝗽 🔎", url=GRP_LNK)
                                                                        ],[
-                                                                           InlineKeyboardButton("✧ ᴄʀᴇᴀᴛᴏʀ ✧", url='https://t.me/Prime_Nayem')
+                                                                           InlineKeyboardButton("✧ ᴄʀᴇᴀᴛᴏʀ ✧", url='https://t.me/MR_PRIME_SUPREME')
                                                                          ]]
                                                  ),
                                                  parse_mode=enums.ParseMode.HTML
@@ -92,7 +92,7 @@ async def leave_a_chat(bot, message):
     try:
         buttons = [[
             InlineKeyboardButton('✪ Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ ✪',url=CHNL_LNK),
-            InlineKeyboardButton("✧ ᴄʀᴇᴀᴛᴏʀ ✧", url="t.me/Prime_Nayem")
+            InlineKeyboardButton("✧ ᴄʀᴇᴀᴛᴏʀ ✧", url="https://t.me/MR_PRIME_SUPREME")
         ],[
             InlineKeyboardButton('〄 𝗦𝗨𝗣𝗣𝗢𝗥𝗧 𝗚𝗥𝗢𝗨𝗣 〄', url=GRP_LNK)
         ]]
