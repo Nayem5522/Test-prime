@@ -81,7 +81,7 @@ CHNL_LNK = environ.get('CHNL_LNK', 'https://t.me/mhmoviebackup')
 MAINCHANL_LNK = environ.get('MAINCHANL_LNK', 'https://t.me/MHBDOFFICIALS')
 PSUP_LNK = environ.get('PSUP_LNK', 'https://t.me/MHBDDiscussionGruop')
 TUTORIAL = environ.get('TUTORIAL', 'https://t.me/Prime_Movie_Watch_Dawnload/75')
-SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'MHBDDiscussionGruop') # Support Chat Link Without https:// or @
+SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'peoples_disscussion_group') # Support Chat Link Without https:// or @
 
 # True Or False
 AI_SPELL_CHECK = bool(environ.get('AI_SPELL_CHECK', True))
