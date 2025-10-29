@@ -78,7 +78,7 @@ PUBLIC_FILE_CHANNEL = environ.get('PUBLIC_FILE_CHANNEL', 'pri_Nay1') # Public Ch
 # Links
 GRP_LNK = environ.get('GRP_LNK', 'https://t.me/cinelolmovie')
 CHNL_LNK = environ.get('CHNL_LNK', 'https://t.me/mhmoviebackup')
-MAINCHANL_LNK = environ.get('MAINCHANL_LNK', 'https://t.me/MHBDOFFICIALS')
+MAINCHANL_LNK = environ.get('MAINCHANL_LNK', 'https://t.me/First_Uploading_Content')
 PSUP_LNK = environ.get('PSUP_LNK', 'https://t.me/MHBDDiscussionGruop')
 TUTORIAL = environ.get('TUTORIAL', 'https://t.me/Prime_Movie_Watch_Dawnload/75')
 SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'peoples_disscussion_group') # Support Chat Link Without https:// or @
@@ -175,4 +175,5 @@ LOG_STR += f"Your current IMDB template is {IMDB_TEMPLATE}"
 # Don't Remove Credit @VJ_Botz
 # Subscribe YouTube Channel For Amazing Bot @Tech_VJ
 # Ask Doubt on telegram @KingVJ01
+
 
