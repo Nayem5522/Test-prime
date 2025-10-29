@@ -46,7 +46,7 @@ EXTRA_AUTH_CHANNELS = [int(x) for x in extra_auth_channels.split()] if extra_aut
 
 ALL_AUTH_CHANNELS = [AUTH_CHANNEL] + EXTRA_AUTH_CHANNELS if AUTH_CHANNEL else EXTRA_AUTH_CHANNELS
 
-reqst_channel = environ.get('REQST_CHANNEL_ID', '-1002082665507')
+reqst_channel = environ.get('REQST_CHANNEL_ID', '-1002690380584')
 REQST_CHANNEL = int(reqst_channel) if reqst_channel and id_pattern.search(reqst_channel) else None
 support_chat_id = environ.get('SUPPORT_CHAT_ID', '-1002152618409')
 SUPPORT_CHAT_ID = int(support_chat_id) if support_chat_id and id_pattern.search(support_chat_id) else None
@@ -175,3 +175,4 @@ LOG_STR += f"Your current IMDB template is {IMDB_TEMPLATE}"
 # Don't Remove Credit @VJ_Botz
 # Subscribe YouTube Channel For Amazing Bot @Tech_VJ
 # Ask Doubt on telegram @KingVJ01
+
