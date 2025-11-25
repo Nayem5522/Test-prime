@@ -562,33 +562,51 @@ async def start(client, message):
             return
     elif data.startswith("getfile"):
         try:
-            # 'getfile-' শব্দটি বাদ দিয়ে মুভির নাম বা slug আলাদা করা হচ্ছে
+            # 1. নাম বের করা এবং সার্চ করা (Bypass Logic)
             slug = data.split("-", 1)[1]
-            # slug এর ভেতরের হাইফেন (-) সরিয়ে স্পেস দেওয়া হচ্ছে সার্চ করার জন্য
             query = slug.replace("-", " ")
-
-            # --- ফিক্স করা হয়েছে: প্রথমে User ID দেওয়া হয়েছে, তারপর query ---
             files, _, _ = await get_search_results(message.from_user.id, query)
 
             if not files:
-                await message.reply_text(f"<b>Top Search Results for: {query} (No exact match found)</b>")
+                await message.reply_text(f"<b>Files not found for: {query}\n\nTry checking the spelling manually.</b>")
                 return
 
-            # ফাইলগুলো ইউজারকে পাঠানো
+            # 2. ফাইল এবং বাটন পাঠানো
             filesarr = []
             for file in files:
+                file_id = file.file_id
                 caption = file.caption or file.file_name
-                f_caption = caption # আপনার কাস্টম ক্যাপশন লজিক থাকলে এখানে বসাতে পারেন
                 
-                # ফাইল সেন্ড করা
+                # --- বাটন লজিক (আপনার ফাইলের অন্য সেকশন থেকে নেওয়া) ---
+                if STREAM_MODE == True:
+                    button = [[
+                        InlineKeyboardButton('⌬ Aʟʟ Mᴏᴠɪᴇs Cʜᴀɴɴᴇʟ', url=f'https://t.me/{SUPPORT_CHAT}'),
+                        InlineKeyboardButton('✪ Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ ✪', url=CHNL_LNK)
+                    ],[
+                        InlineKeyboardButton("🔍 𝗠𝗼𝘃𝗶𝗲𝘀 𝗥𝗲𝗾𝘂𝗲𝘀𝘁 𝗚𝗿𝗼𝘂𝗽 🔎", url=GRP_LNK)
+                    ],[
+                        # স্ট্রিম লিংক জেনারেট করার জন্য কলব্যাক
+                        InlineKeyboardButton('🚀 Fast Download / Watch Online🖥️', callback_data=f'generate_stream_link:{file_id}') 
+                    ]]
+                else:
+                    button = [[
+                        InlineKeyboardButton('⌬ Aʟʟ Mᴏᴠɪᴇs Cʜᴀɴɴᴇʟ', url=f'https://t.me/{SUPPORT_CHAT}'),
+                        InlineKeyboardButton('✪ Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ ✪', url=CHNL_LNK)
+                    ],[
+                        InlineKeyboardButton("🔍 𝗠𝗼𝘃𝗶𝗲𝘀 𝗥𝗲𝗾𝘂𝗲𝘀𝘁 𝗚𝗿𝗼𝘂𝗽 🔎", url=GRP_LNK)
+                    ]]
+                # -----------------------------------------------------
+
+                # ফাইল সেন্ড করা (বাটন সহ)
                 msg = await client.send_cached_media(
                     chat_id=message.from_user.id,
-                    file_id=file.file_id,
-                    caption=f_caption
+                    file_id=file_id,
+                    caption=caption,
+                    reply_markup=InlineKeyboardMarkup(button) # বাটন যুক্ত করা হলো
                 )
                 filesarr.append(msg)
             
-            # ১০ মিনিট পর ডিলিট করার ওয়ার্নিং মেসেজ
+            # 3. অটো ডিলিট লজিক
             k = await client.send_message(chat_id = message.from_user.id, text=f"<b><u>❗️❗️❗️IMPORTANT❗️️❗️❗️</u></b>\n\nThis Movie Files/Videos will be deleted in <b><u>10 mins</u> 🫥 <i></b>(Due to Copyright Issues)</i>.\n\n<b><i>Please forward this ALL Files/Videos to your Saved Messages and Start Download there</i></b>")
             await asyncio.sleep(600)
             for x in filesarr:
@@ -597,16 +615,7 @@ async def start(client, message):
             return
 
         except Exception as e:
-            print(f"Error in getfile: {e}")
-            # যদি ভুলবশত User ID না লাগে, তাহলে নিচের লাইনটি কাজ করবে (Fallback)
-            try:
-                files, _, _ = await get_search_results(query)
-                if files:
-                    for file in files:
-                        await client.send_cached_media(chat_id=message.from_user.id, file_id=file.file_id, caption=file.caption or file.file_name)
-                    return
-            except:
-                pass
+            print(f"Error in getfile bypass: {e}")
             await message.reply_text("<b>Something went wrong while fetching the file!</b>")
             return 
     user = message.from_user.id
@@ -1637,5 +1646,6 @@ async def purge_requests(client, message):
             parse_mode=enums.ParseMode.MARKDOWN,
             disable_web_page_preview=True
         )
+
 
 
