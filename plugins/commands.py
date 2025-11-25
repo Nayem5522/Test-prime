@@ -7,7 +7,8 @@ from Script import script
 from pyrogram import Client, filters, enums
 from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import *
-from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, get_bad_files
+from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, get_bad_files, get_search_results
+#from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, get_bad_files
 from database.users_chats_db import db, delete_all_referal_users, get_referal_users_count, get_referal_all_users, referal_add_user
 from database.join_reqs import JoinReqs
 from info import CLONE_MODE, CHANNELS, REACTIONS, REQUEST_TO_JOIN_MODE, TRY_AGAIN_BTN, ADMINS, SHORTLINK_MODE, PREMIUM_AND_REFERAL_MODE, STREAM_MODE, AUTH_CHANNEL, OWNER_USERNAME, REFERAL_PREMEIUM_TIME, REFERAL_COUNT, PAYMENT_TEXT, PAYMENT_QR, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, PROTECT_CONTENT, CHNL_LNK, GRP_LNK, MAINCHANL_LNK, PSUP_LNK, REQST_CHANNEL, SUPPORT_CHAT_ID, SUPPORT_CHAT, MAX_B_TN, VERIFY, SHORTLINK_API, SHORTLINK_URL, TUTORIAL, VERIFY_TUTORIAL, IS_TUTORIAL, URL
@@ -558,6 +559,47 @@ async def start(client, message):
             )
             await asyncio.sleep(1200)
             await k.edit("<b>Your message is successfully deleted!!!</b>")
+            return
+    elif data.startswith("getfile"):
+        try:
+            # 'getfile-' শব্দটি বাদ দিয়ে মুভির নাম বা slug আলাদা করা হচ্ছে
+            slug = data.split("-", 1)[1]
+            # slug এর ভেতরের হাইফেন (-) সরিয়ে স্পেস দেওয়া হচ্ছে সার্চ করার জন্য
+            query = slug.replace("-", " ")
+
+            # ডাটাবেসে সার্চ করা হচ্ছে
+            files, _, _ = await get_search_results(query)
+
+            if not files:
+                await message.reply_text(f"<b>Top Search Results for: {query} (No exact match found)</b>")
+                # এখানে চাইলে রিটার্ন না করে সাজেশন দেওয়ার কোড রাখা যায়, তবে সিম্পল রাখার জন্য রিটার্ন করা হলো
+                return
+
+            # ফাইলগুলো ইউজারকে পাঠানো
+            filesarr = []
+            for file in files:
+                caption = file.caption or file.file_name
+                f_caption = caption # আপনার কাস্টম ক্যাপশন লজিক থাকলে এখানে বসাতে পারেন
+                
+                # ফাইল সেন্ড করা
+                msg = await client.send_cached_media(
+                    chat_id=message.from_user.id,
+                    file_id=file.file_id,
+                    caption=f_caption
+                )
+                filesarr.append(msg)
+            
+            # ১০ মিনিট পর ডিলিট করার ওয়ার্নিং মেসেজ (আপনার বটের স্টাইল অনুযায়ী)
+            k = await client.send_message(chat_id = message.from_user.id, text=f"<b><u>❗️❗️❗️IMPORTANT❗️️❗️❗️</u></b>\n\nThis Movie Files/Videos will be deleted in <b><u>10 mins</u> 🫥 <i></b>(Due to Copyright Issues)</i>.\n\n<b><i>Please forward this ALL Files/Videos to your Saved Messages and Start Download there</i></b>")
+            await asyncio.sleep(600)
+            for x in filesarr:
+                await x.delete()
+            await k.edit_text("<b>Your All Files/Videos is successfully deleted!!!</b>")
+            return
+
+        except Exception as e:
+            print(f"Error in getfile: {e}")
+            await message.reply_text("<b>Something went wrong while fetching the file!</b>")
             return
     user = message.from_user.id
     files_ = await get_file_details(file_id)           
@@ -1587,3 +1629,4 @@ async def purge_requests(client, message):
             parse_mode=enums.ParseMode.MARKDOWN,
             disable_web_page_preview=True
         )
+
