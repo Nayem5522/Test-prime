@@ -567,12 +567,11 @@ async def start(client, message):
             # slug এর ভেতরের হাইফেন (-) সরিয়ে স্পেস দেওয়া হচ্ছে সার্চ করার জন্য
             query = slug.replace("-", " ")
 
-            # ডাটাবেসে সার্চ করা হচ্ছে
-            files, _, _ = await get_search_results(query)
+            # --- ফিক্স করা হয়েছে: প্রথমে User ID দেওয়া হয়েছে, তারপর query ---
+            files, _, _ = await get_search_results(message.from_user.id, query)
 
             if not files:
                 await message.reply_text(f"<b>Top Search Results for: {query} (No exact match found)</b>")
-                # এখানে চাইলে রিটার্ন না করে সাজেশন দেওয়ার কোড রাখা যায়, তবে সিম্পল রাখার জন্য রিটার্ন করা হলো
                 return
 
             # ফাইলগুলো ইউজারকে পাঠানো
@@ -589,7 +588,7 @@ async def start(client, message):
                 )
                 filesarr.append(msg)
             
-            # ১০ মিনিট পর ডিলিট করার ওয়ার্নিং মেসেজ (আপনার বটের স্টাইল অনুযায়ী)
+            # ১০ মিনিট পর ডিলিট করার ওয়ার্নিং মেসেজ
             k = await client.send_message(chat_id = message.from_user.id, text=f"<b><u>❗️❗️❗️IMPORTANT❗️️❗️❗️</u></b>\n\nThis Movie Files/Videos will be deleted in <b><u>10 mins</u> 🫥 <i></b>(Due to Copyright Issues)</i>.\n\n<b><i>Please forward this ALL Files/Videos to your Saved Messages and Start Download there</i></b>")
             await asyncio.sleep(600)
             for x in filesarr:
@@ -599,8 +598,17 @@ async def start(client, message):
 
         except Exception as e:
             print(f"Error in getfile: {e}")
+            # যদি ভুলবশত User ID না লাগে, তাহলে নিচের লাইনটি কাজ করবে (Fallback)
+            try:
+                files, _, _ = await get_search_results(query)
+                if files:
+                    for file in files:
+                        await client.send_cached_media(chat_id=message.from_user.id, file_id=file.file_id, caption=file.caption or file.file_name)
+                    return
+            except:
+                pass
             await message.reply_text("<b>Something went wrong while fetching the file!</b>")
-            return
+            return 
     user = message.from_user.id
     files_ = await get_file_details(file_id)           
     if not files_:
@@ -1629,4 +1637,5 @@ async def purge_requests(client, message):
             parse_mode=enums.ParseMode.MARKDOWN,
             disable_web_page_preview=True
         )
+
 
