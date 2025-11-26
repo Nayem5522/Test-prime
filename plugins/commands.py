@@ -566,28 +566,27 @@ async def start(client, message):
             slug = data.split("-", 1)[1]
             query = slug.replace("-", " ")
 
-            # 2. "Searching..." এনিমেশন মেসেজ দেওয়া
+            # 2. Searching এনিমেশন (Professional Look)
             search_msg = await message.reply_text(f"<b>⏳ Searching for '<code>{query}</code>'...</b>")
-            
-            # 3. ৩ সেকেন্ড অপেক্ষা (আপনার চাহিদা অনুযায়ী)
-            await asyncio.sleep(3)
-            
-            # 4. সার্চিং মেসেজ ডিলিট করা
+            await asyncio.sleep(3) # ৩ সেকেন্ড ওয়েট (Search ভাব আনার জন্য)
             await search_msg.delete()
 
-            # 5. বটের কাছে ভান করা যেন ইউজার মুভির নাম লিখে মেসেজ দিয়েছে
-            # এর ফলে বটের ভেরিফিকেশন, শর্টলিংক, বাটন সব কাজ করবে
+            # 3. বটের কাছে ভান করা যেন ইউজার মুভির নাম লিখে মেসেজ দিয়েছে
             message.text = query
             
-            # 6. Auto Filter ফাংশন কল করা
-            from plugins.p_ttishow import auto_filter
-            await auto_filter(client, message)
+            # 4. Auto Filter ফাংশন কল করা
+            # লক্ষ্য করুন: আপনার ফাইলের নাম যদি 'pm_filter.py' হয়, তবে নিচের লাইনটি ঠিক আছে।
+            from plugins.pm_filter import auto_filter
+            await auto_filter(client, query, message, message, ai_search=True)
             return
 
+        except ImportError:
+            await message.reply_text("<b>System Error: 'pm_filter' module not found. Please check filename in plugins folder.</b>")
+            return
         except Exception as e:
             print(f"Error in getfile professional logic: {e}")
             await message.reply_text("<b>Something went wrong! Please try searching manually in the group.</b>")
-            return
+            return 
     user = message.from_user.id
     files_ = await get_file_details(file_id)           
     if not files_:
@@ -1616,6 +1615,7 @@ async def purge_requests(client, message):
             parse_mode=enums.ParseMode.MARKDOWN,
             disable_web_page_preview=True
         )
+
 
 
 
