@@ -61,7 +61,7 @@ async def media_old(bot, message):
 # 2. NEW HANDLER (UPCHANNELS)
 # ====================================================================
 
-@Client.on_message(filters.chat(CHANNELS) & media_filter)
+@Client.on_message(filters.chat(UPCHANNELS) & media_filter)
 async def media_new(bot, message):
     for file_type in ("document", "video", "audio"):
         media = getattr(message, file_type, None)
@@ -415,4 +415,5 @@ async def fetch_tmdb_data(query, year=None):
 
 def generate_unique_id(movie_name):
     return hashlib.md5(movie_name.encode('utf-8')).hexdigest()[:5]
+
 
