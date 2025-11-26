@@ -566,26 +566,28 @@ async def start(client, message):
             slug = data.split("-", 1)[1]
             query = slug.replace("-", " ")
 
-            # 2. Searching এনিমেশন (Professional Look)
+            # 2. Searching মেসেজ পাঠানো (এটিকেই পরে বট এডিট করবে)
             search_msg = await message.reply_text(f"<b>⏳ Searching for '<code>{query}</code>'...</b>")
-            await asyncio.sleep(3) # ৩ সেকেন্ড ওয়েট (Search ভাব আনার জন্য)
-            await search_msg.delete()
+            
+            # 3. ৩ সেকেন্ড অপেক্ষা (আপনার চাওয়া অনুযায়ী)
+            await asyncio.sleep(3)
 
-            # 3. বটের কাছে ভান করা যেন ইউজার মুভির নাম লিখে মেসেজ দিয়েছে
+            # 4. বটের কাছে ভান করা যেন ইউজার মুভির নাম লিখে মেসেজ দিয়েছে
             message.text = query
             
-            # 4. Auto Filter ফাংশন কল করা
-            # লক্ষ্য করুন: আপনার ফাইলের নাম যদি 'pm_filter.py' হয়, তবে নিচের লাইনটি ঠিক আছে।
+            # 5. Auto Filter ফাংশন কল করা
+            # এখানে আমরা search_msg পাঠাচ্ছি 'reply_msg' হিসেবে
             from plugins.pm_filter import auto_filter
-            await auto_filter(client, query, message, message, ai_search=True)
+            await auto_filter(client, query, message, search_msg, ai_search=True)
             return
 
-        except ImportError:
-            await message.reply_text("<b>System Error: 'pm_filter' module not found. Please check filename in plugins folder.</b>")
-            return
         except Exception as e:
             print(f"Error in getfile professional logic: {e}")
-            await message.reply_text("<b>Something went wrong! Please try searching manually in the group.</b>")
+            # যদি কোনো কারণে এরর হয়, তখন ইউজারকে ম্যানুয়াল সার্চ করতে বলা
+            try:
+                await search_msg.edit(f"<b>❌ Error searching for: {query}\nPlease check spelling manually in group.</b>")
+            except:
+                await message.reply_text("<b>Something went wrong!</b>")
             return 
     user = message.from_user.id
     files_ = await get_file_details(file_id)           
@@ -1615,6 +1617,7 @@ async def purge_requests(client, message):
             parse_mode=enums.ParseMode.MARKDOWN,
             disable_web_page_preview=True
         )
+
 
 
 
