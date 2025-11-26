@@ -148,9 +148,15 @@ async def send_movie_update(bot, file_name, caption):
         # --- 5. DESIGN SECTION ---
         
         full_caption = "#𝑵𝒆𝒘_𝑪𝒐𝒏𝒕𝒆𝒏𝒕_𝑨𝒅𝒅𝒆𝒅 💌\n\n╭─━━━⌁ 𝘾𝙊𝙉𝙏𝙀𝙉𝙏 𝙄𝙉𝙁𝙊 ⌁━━━─╮\n"
-        full_caption += f"│ 📂 𝐓𝐢𝐭𝐥𝐞: <b>{title}</b>\n"
+        
+        # Title Fix: টাইটেল বেশি বড় হলে ভেঙে বর্ডারের ভেতরে রাখা
+        title_lines = textwrap.wrap(title, width=32) # 32 ক্যারেক্টার পর লাইন ব্রেক হবে
+        full_caption += f"│ 📂 𝐓𝐢𝐭𝐥𝐞: <b>{title_lines[0]}</b>\n"
+        for line in title_lines[1:]:
+             full_caption += f"│        <b>{line}</b>\n" # বাকি অংশ নিচে সুন্দরভাবে দেখাবে
         
         if genres: 
+            # Genre সাধারণত ছোট হয়, তাই এখানে wrap দরকার নেই, তবে চাইলে করা যায়
             full_caption += f"│ 🎭 𝐆𝐞𝐧𝐫𝐞: {genres}\n"
             
         if rating and str(rating) != "0" and str(rating) != "0.0":
@@ -166,17 +172,23 @@ async def send_movie_update(bot, file_name, caption):
         if display_year and display_year != "N/A":
             full_caption += f"│ 📅 𝐘𝐞𝐚𝐫: {display_year}\n"
             
-        # Story Section
-        if overview and len(overview) > 10:
+        # Story Section FIX (Main Issue)
+        if overview:
             full_caption += "├╌╌╌╌╌╌╌ 𝐒𝐓𝐎𝐑𝐘 ╌╌╌╌╌╌╌┤\n"
-            short_overview = overview[:250] + "..." if len(overview) > 250 else overview
-            full_caption += f"│ {short_overview}\n"
+            # প্রথমে টেক্সট ছোট করে নেওয়া (যাতে ক্যাপশন লিমিট ক্রস না করে)
+            raw_overview = overview[:300] + "..." if len(overview) > 300 else overview
+            
+            # টেক্সট র‍্যাপ করা (Width 35 মোবাইলের জন্য পারফেক্ট)
+            wrapped_lines = textwrap.wrap(raw_overview, width=35)
+            
+            for line in wrapped_lines:
+                full_caption += f"│ {line}\n"
         
         full_caption += "╰━━━━━━━━━━━━━━━━━━━━━╯\n\n"
         
         full_caption += "╭─━━━━⌁ ᴇɴɢᴀɢᴇ ᴡɪᴛʜ ᴘᴏꜱᴛ ⌁━━━━─╮\n"
         full_caption += "┃ ♡ 𝐋𝐢𝐤𝐞  ❍ 𝐂𝐨𝐦𝐦𝐞𝐧𝐭  ⎙ 𝐒𝐚𝐯𝐞  ⌲ 𝐒𝐡𝐚𝐫𝐞\n"
-        full_caption += "╰━━━━━━━━━━━━━━━━━━━━━━╯\n\n"
+        full_caption += "╰━━━━━━━━━━━━━━━━━━━━━━━━━━╯\n\n"
         
         full_caption += "            ⬇️ <b>Get File Below</b> ⬇️"
 
@@ -415,5 +427,6 @@ async def fetch_tmdb_data(query, year=None):
 
 def generate_unique_id(movie_name):
     return hashlib.md5(movie_name.encode('utf-8')).hexdigest()[:5]
+
 
 
