@@ -268,7 +268,7 @@ async def extract_info_from_filename(filename):
     
     title = ""
     year = None
-    check_limit = min(len(words), 8)
+    check_limit = min(len(words), 5)
     
     for i in range(check_limit):
         word = words[i]
@@ -427,6 +427,7 @@ async def fetch_tmdb_data(query, year=None):
 
 def generate_unique_id(movie_name):
     return hashlib.md5(movie_name.encode('utf-8')).hexdigest()[:5]
+
 
 
 
