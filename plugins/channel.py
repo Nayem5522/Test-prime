@@ -58,10 +58,10 @@ async def media_old(bot, message):
     await save_file(media)
 
 # ====================================================================
-# 2. NEW HANDLER (UPCHANNELS - With Update Post)
+# 2. NEW HANDLER (UPCHANNELS)
 # ====================================================================
 
-@Client.on_message(filters.chat(UPCHANNELS) & media_filter)
+@Client.on_message(filters.chat(CHANNELS) & media_filter)
 async def media_new(bot, message):
     for file_type in ("document", "video", "audio"):
         media = getattr(message, file_type, None)
@@ -96,7 +96,6 @@ async def send_movie_update(bot, file_name, caption):
         unique_id = generate_unique_id(link_slug)
         
         current_time = datetime.now()
-        # ডুপ্লিকেট চেকিং (৫ দিন)
         if unique_id in notified_movies:
             last_posted_time = notified_movies[unique_id]
             if (current_time - last_posted_time) < timedelta(days=5):
@@ -106,22 +105,20 @@ async def send_movie_update(bot, file_name, caption):
         notified_movies[unique_id] = current_time
         movie_slugs[unique_id] = link_slug
 
-        # --- 2. Initial Data Extraction (Filename Based) ---
+        # --- 2. Initial Data Extraction ---
         file_title, file_year = await extract_info_from_filename(file_name)
-        season_info = await get_season_episode(file_name) # সিজন ইনফো বের করা
+        # শুধু সিজন নম্বর বের করবে (Only "Season 1", "Season 2")
+        season_info = await get_only_season(file_name) 
         
-        # সার্চের জন্য সিজন/এপিসোড এবং ফালতু শব্দ বাদ দেওয়া
         search_query = await clean_search_query(file_title) 
         
-        # --- 3. Fetch Data from TMDB ---
-        # বছর পেলে সেটা সহ সার্চ, না পেলে শুধু নাম
+        # --- 3. Fetch Data from TMDB (Movie + TV Check) ---
         tmdb_year_param = file_year if file_year != "N/A" else None
         tmdb_data = await fetch_tmdb_data(search_query, tmdb_year_param)
         
-        # --- 4. Final Data Setup (Fallback Logic) ---
+        # --- 4. Final Data Setup ---
         
         if tmdb_data:
-            # TMDB ডাটা পাওয়া গেলে
             title = tmdb_data.get("title")
             overview = tmdb_data.get("overview", "")
             rating = tmdb_data.get("vote_average", 0)
@@ -130,15 +127,14 @@ async def send_movie_update(bot, file_name, caption):
             release_year = tmdb_data.get("release_date", "")[:4]
             display_year = release_year if release_year else file_year
         else:
-            # TMDB ডাটা না পাওয়া গেলে (Fallback)
+            # Fallback
             title = file_title
             overview = "" 
             rating = 0
             genres = ""
-            poster = None # ছবি নেই
+            poster = None
             display_year = file_year
 
-        # ভাষা এবং কোয়ালিটি সবসময় ফাইল থেকেই নেওয়া হবে
         language = await get_formatted_language(file_name, caption)
         quality = await get_qualities(file_name + " " + (caption or ""))
         
@@ -160,7 +156,7 @@ async def send_movie_update(bot, file_name, caption):
         if rating and str(rating) != "0" and str(rating) != "0.0":
             full_caption += f"│ ⭐ 𝐑𝐚𝐭𝐢𝐧𝐠: {rating}/10\n"
             
-        # সিজন ইনফো থাকলে দেখাবে, না থাকলে নাই
+        # শুধুমাত্র ক্লিন Season (e.g. Season 1)
         if season_info:
             full_caption += f"│ 📺 𝐒𝐞𝐚𝐬𝐨𝐧: {season_info}\n"
 
@@ -180,9 +176,9 @@ async def send_movie_update(bot, file_name, caption):
         
         full_caption += "╭─━━━━⌁ ᴇɴɢᴀɢᴇ ᴡɪᴛʜ ᴘᴏꜱᴛ ⌁━━━━─╮\n"
         full_caption += "┃ ♡ 𝐋𝐢𝐤𝐞  ❍ 𝐂𝐨𝐦𝐦𝐞𝐧𝐭  ⎙ 𝐒𝐚𝐯𝐞  ⌲ 𝐒𝐡𝐚𝐫𝐞\n"
-        full_caption += "╰━━━━━━━━━━━━━━━━━━━━━━━╯\n\n"
+        full_caption += "╰━━━━━━━━━━━━━━━━━━━━━━╯\n\n"
         
-        full_caption += "        ⬇️ <b>Get File Below</b> ⬇️"
+        full_caption += "            ⬇️ <b>Get File Below</b> ⬇️"
 
         # --- 6. Buttons ---
         buttons = [[
@@ -197,7 +193,6 @@ async def send_movie_update(bot, file_name, caption):
         if poster:
             await bot.send_photo(chat_id=MOVIE_UPDATE_CHANNEL, photo=poster, caption=full_caption, reply_markup=InlineKeyboardMarkup(buttons))
         else:
-            # ছবি না পেলে টেক্সট মেসেজ যাবে (কোনো ডিফল্ট ছবি নেই)
             await bot.send_message(chat_id=MOVIE_UPDATE_CHANNEL, text=full_caption, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True)
 
     except Exception as e:
@@ -255,10 +250,6 @@ async def reaction_handler(client, query):
 # ====================================================================
 
 async def extract_info_from_filename(filename):
-    """
-    প্রথম ৫টি শব্দের মধ্যে বছর (19xx-20xx) খুঁজবে।
-    বছর পেলে তার আগের অংশ টাইটেল হবে।
-    """
     clean_text = re.sub(r'\.\w+$', '', filename)
     clean_text = re.sub(r'[._\-\[\]\(\)]', ' ', clean_text)
     words = clean_text.split()
@@ -275,9 +266,7 @@ async def extract_info_from_filename(filename):
             break
             
     if not title:
-        # বছর না পেলে ক্লিন নাম এবং সিজন রিমুভ করে টাইটেল বানাবে
         temp_title = await clean_display_name(filename)
-        # টাইটেল থেকে S01 বা Season 1 এসব রিমুভ করা হচ্ছে যাতে ক্লীন টাইটেল দেখায়
         title = re.sub(r'(?i)\b(S\d+|Season\s*\d+|Ep?\d+)\b', '', temp_title).strip()
     
     if not year:
@@ -285,39 +274,18 @@ async def extract_info_from_filename(filename):
         
     return title.strip(), year
 
-async def get_season_episode(text):
+async def get_only_season(text):
     """
-    S01, Season 1, E01, Combined ডিটেক্ট করার জন্য
+    শুধুমাত্র সিজন নম্বর বের করে: Season 1, Season 2
+    Episode, Combined এগুলো বাদ।
     """
-    # . বা _ কে স্পেস করে দিচ্ছি যাতে regex ভালো কাজ করে
     text = re.sub(r'[._]', ' ', text)
-    
-    # Regex Patterns
-    season_pattern = r'(?i)\b(?:S|Season)\s*(\d+)'
-    episode_pattern = r'(?i)\b(?:E|Ep|Episode)\s*(\d+)'
-    combined_pattern = r'(?i)\b(Combined|Complete|Pack|Batch)\b'
-    
-    parts = []
-    
-    # Season Check
-    s_match = re.search(season_pattern, text)
-    if s_match:
-        # 01 কে 1 বানাবে (int)
-        parts.append(f"Season {int(s_match.group(1))}")
-        
-    # Episode Check
-    e_match = re.search(episode_pattern, text)
-    if e_match:
-        parts.append(f"Episode {int(e_match.group(1))}")
-        
-    # Combined Check
-    if re.search(combined_pattern, text):
-        parts.append("Combined")
-        
-    if not parts:
-        return None
-        
-    return " ".join(parts)
+    # শুধুমাত্র S01 বা Season 1 খুঁজবে
+    match = re.search(r'(?i)\b(?:S|Season)\s*(\d+)', text)
+    if match:
+        season_num = int(match.group(1))
+        return f"Season {season_num}"
+    return None
 
 async def get_smart_link_slug(filename):
     clean = re.sub(r'\.\w+$', '', filename)
@@ -340,8 +308,8 @@ async def get_smart_link_slug(filename):
     return final_slug
 
 async def clean_search_query(text):
-    # সার্চের জন্য শুধু মূল নামটা দরকার, সিজন বা এপিসোড বাদে
     text = re.sub(r'[._\-\(\)\[\]\{\}]', ' ', text)
+    # সিজন এবং এপিসোড রিমুভ (সার্চের সুবিধার জন্য)
     text = re.sub(r'\b(S\d+|Season\s*\d+|Ep?\d+)\b', '', text, flags=re.IGNORECASE)
     junk = r'\b(Download|Downlo|Complete|Netflix|Amazon|Prime|Hulu|Hotstar|Series|Movie|Official|Dubbed|Dual|Audio|Sub|ESub|NF|AV1|Vista|AAC|AAC5\.1|Combined|Pack)\b'
     text = re.sub(junk, '', text, flags=re.IGNORECASE)
@@ -369,8 +337,7 @@ async def get_formatted_language(filename, caption):
 async def get_qualities(text):
     text_lower = (text or "").lower()
     quality_list = []
-
-    # Source Map
+    # শুধুমাত্র সোর্স কোয়ালিটি (রেজোলিউশন বাদ)
     QUALITY_MAP = {
         "uncut": "Uncut", "director's cut": "Director's Cut", "imax": "IMAX",
         "remastered": "Remastered", "org": "Original Aud",
@@ -390,26 +357,38 @@ async def get_qualities(text):
     if not quality_list: return "HDRip"
     return " | ".join(quality_list)
 
-
 async def fetch_tmdb_data(query, year=None):
     try:
-        # TMDB সাধারণত মুভি সার্চে এপিসোড বা সিজন থাকলে রেজাল্ট দেয় না
-        # তাই query টা clean থাকা জরুরি
+        # 1. MOVIE Search
         params = {"api_key": TMDB_API, "query": query}
         if year and year != "N/A": params["year"] = year
         
         res = requests.get("https://api.themoviedb.org/3/search/movie", params=params, timeout=5)
         results = res.json().get("results", [])
         
+        # 2. TV SEARCH (যদি মুভি না পায়)
+        is_tv = False
+        if not results:
+            # TV শো খোঁজার সময় 'year' প্যারামিটার 'first_air_date_year' হিসেবে ব্যবহার হয়
+            params_tv = {"api_key": TMDB_API, "query": query}
+            if year and year != "N/A": params_tv["first_air_date_year"] = year
+            
+            res_tv = requests.get("https://api.themoviedb.org/3/search/tv", params=params_tv, timeout=5)
+            results = res_tv.json().get("results", [])
+            is_tv = True
+
         if not results: return {}
         
-        matched_movie = results[0] # প্রথম রেজাল্ট নেওয়া হচ্ছে
+        matched_item = results[0]
+        item_id = matched_item.get("id")
         
-        movie_id = matched_movie.get("id")
-        details_res = requests.get(f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={TMDB_API}", timeout=5)
+        # Details Fetch (Movie বা TV এর জন্য আলাদা URL)
+        endpoint = "tv" if is_tv else "movie"
+        details_res = requests.get(f"https://api.themoviedb.org/3/{endpoint}/{item_id}?api_key={TMDB_API}", timeout=5)
         details = details_res.json()
         
-        poster_path = details.get("poster_path") or matched_movie.get("poster_path")
+        # Data Extraction (TV এবং Movie এর key আলাদা হতে পারে)
+        poster_path = details.get("poster_path") or matched_item.get("poster_path")
         backdrop_path = details.get("backdrop_path")
         image_url = None
         if poster_path: image_url = f"https://image.tmdb.org/t/p/w500{poster_path}"
@@ -418,18 +397,22 @@ async def fetch_tmdb_data(query, year=None):
         genres_list = [g["name"] for g in details.get("genres", [])]
         genres_str = ", ".join(genres_list[:2])
         
+        # TV Shows এর জন্য 'name' এবং 'first_air_date'
+        title = details.get("name") if is_tv else details.get("title")
+        release_date = details.get("first_air_date") if is_tv else details.get("release_date")
+        
         return {
-            "title": details.get("title"),
+            "title": title,
             "overview": details.get("overview"),
             "vote_average": round(details.get("vote_average", 0), 1),
             "genres": genres_str,
-            "release_date": details.get("release_date"),
+            "release_date": release_date,
             "poster": image_url
         }
-    except Exception:
+    except Exception as e:
+        print(f"TMDB Fetch Error: {e}")
         return {}
 
 def generate_unique_id(movie_name):
     return hashlib.md5(movie_name.encode('utf-8')).hexdigest()[:5]
-
 
