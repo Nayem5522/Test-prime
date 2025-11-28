@@ -2,7 +2,7 @@ import re
 import hashlib
 import requests
 import textwrap
-from telegram import ParseMode
+from pyrogram.enums import ParseMode
 from datetime import datetime, timedelta
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
@@ -426,6 +426,7 @@ async def fetch_tmdb_data(query, year=None):
 
 def generate_unique_id(movie_name):
     return hashlib.md5(movie_name.encode('utf-8')).hexdigest()[:5]
+
 
 
 
