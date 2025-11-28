@@ -2,6 +2,7 @@ import re
 import hashlib
 import requests
 import textwrap
+from telegram import ParseMode
 from datetime import datetime, timedelta
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
@@ -107,17 +108,14 @@ async def send_movie_update(bot, file_name, caption):
 
         # --- 2. Initial Data Extraction ---
         file_title, file_year = await extract_info_from_filename(file_name)
-        # শুধু সিজন নম্বর বের করবে (Only "Season 1", "Season 2")
         season_info = await get_only_season(file_name) 
-        
         search_query = await clean_search_query(file_title) 
         
-        # --- 3. Fetch Data from TMDB (Movie + TV Check) ---
+        # --- 3. Fetch Data from TMDB ---
         tmdb_year_param = file_year if file_year != "N/A" else None
         tmdb_data = await fetch_tmdb_data(search_query, tmdb_year_param)
         
         # --- 4. Final Data Setup ---
-        
         if tmdb_data:
             title = tmdb_data.get("title")
             overview = tmdb_data.get("overview", "")
@@ -127,7 +125,6 @@ async def send_movie_update(bot, file_name, caption):
             release_year = tmdb_data.get("release_date", "")[:4]
             display_year = release_year if release_year else file_year
         else:
-            # Fallback
             title = file_title
             overview = "" 
             rating = 0
@@ -137,7 +134,6 @@ async def send_movie_update(bot, file_name, caption):
 
         language = await get_formatted_language(file_name, caption)
         quality = await get_qualities(file_name + " " + (caption or ""))
-        
         if language == "Unknown":
             language = "Not Sure"
 
@@ -146,53 +142,44 @@ async def send_movie_update(bot, file_name, caption):
             user_reactions[unique_id] = {}
 
         # --- 5. DESIGN SECTION ---
-        
-        full_caption = "#𝑵𝒆𝒘_𝑪𝒐𝒏𝒕𝒆𝒏𝒕_𝑨𝒅𝒅𝒆𝒅 💌\n\n╭─━━━⌁ 𝘾𝙊𝙉𝙏𝙀𝙉𝙏 𝙄𝙉𝙁𝙊 ⌁━━━─╮\n"
-        
-        # Title Fix: টাইটেল বেশি বড় হলে ভেঙে বর্ডারের ভেতরে রাখা
-        title_lines = textwrap.wrap(title, width=32) # 32 ক্যারেক্টার পর লাইন ব্রেক হবে
+        full_caption = "#𝑵𝒆𝒘_𝑪𝒐𝒏𝒕𝒆𝒏𝒕_𝑨𝒅𝒅𝒆𝒅 💌 #mhmoviebackup\n\n"
+        full_caption += "╭─━━━⌁ 𝘾𝙊𝙉𝙏𝙀𝙉𝙏 𝙄𝙉𝙁𝙊 ⌁━━━─╮\n"
+
+        # Title
+        title_lines = textwrap.wrap(title, width=32)
         full_caption += f"│ 📂 𝐓𝐢𝐭𝐥𝐞: <b>{title_lines[0]}</b>\n"
         for line in title_lines[1:]:
-             full_caption += f"│        <b>{line}</b>\n" # বাকি অংশ নিচে সুন্দরভাবে দেখাবে
-        
+            full_caption += f"│         <b>{line}</b>\n"
+
         if genres: 
-            # Genre সাধারণত ছোট হয়, তাই এখানে wrap দরকার নেই, তবে চাইলে করা যায়
             full_caption += f"│ 🎭 𝐆𝐞𝐧𝐫𝐞: {genres}\n"
-            
-        if rating and str(rating) != "0" and str(rating) != "0.0":
+        if rating and str(rating) not in ["0","0.0"]:
             full_caption += f"│ ⭐ 𝐑𝐚𝐭𝐢𝐧𝐠: {rating}/10\n"
-            
-        # শুধুমাত্র ক্লিন Season (e.g. Season 1)
         if season_info:
             full_caption += f"│ 📺 𝐒𝐞𝐚𝐬𝐨𝐧: {season_info}\n"
-
         full_caption += f"│ 💎 𝐐𝐮𝐚𝐥𝐢𝐭𝐲: <b>{quality}</b>\n"
         full_caption += f"│ 🔊 𝐀𝐮𝐝𝐢𝐨: {language}\n"
-        
-        if display_year and display_year != "N/A":
+        if display_year and display_year != 'N/A':
             full_caption += f"│ 📅 𝐘𝐞𝐚𝐫: {display_year}\n"
-            
-        # Story Section FIX (Main Issue)
+
+        # Story
         if overview:
             full_caption += "├╌╌╌╌╌╌╌ 𝐒𝐓𝐎𝐑𝐘 ╌╌╌╌╌╌╌┤\n"
-            # প্রথমে টেক্সট ছোট করে নেওয়া (যাতে ক্যাপশন লিমিট ক্রস না করে)
             raw_overview = overview[:300] + "..." if len(overview) > 300 else overview
-            
-            # টেক্সট র‍্যাপ করা (Width 35 মোবাইলের জন্য পারফেক্ট)
-            wrapped_lines = textwrap.wrap(raw_overview, width=35)
-            
-            for line in wrapped_lines:
+            for line in textwrap.wrap(raw_overview, width=35):
                 full_caption += f"│ {line}\n"
-        
         full_caption += "╰━━━━━━━━━━━━━━━━━━━━━╯\n\n"
-        
+
+        # Engage Section
         full_caption += "╭─━━━━⌁ ᴇɴɢᴀɢᴇ ᴡɪᴛʜ ᴘᴏꜱᴛ ⌁━━━━─╮\n"
         full_caption += "┃ ♡ 𝐋𝐢𝐤𝐞  ❍ 𝐂𝐨𝐦𝐦𝐞𝐧𝐭  ⎙ 𝐒𝐚𝐯𝐞  ⌲ 𝐒𝐡𝐚𝐫𝐞\n"
-        full_caption += "╰━━━━━━━━━━━━━━━━━━━━━━━━━━╯\n\n"
-        
-        full_caption += "            ⬇️ <b>Get File Below</b> ⬇️"
+        full_caption += "╰━━━━━━━━━━━━━━━━━━━━━━━━━╯\n\n"
 
-        # --- 6. Buttons ---
+        # Clickable Get File Text (HTML)
+        full_caption += f"            ⬇️ Get File Below ⬇️\n"
+        full_caption += f"👉🏻👉🏻👉🏻 <a href='https://telegram.me/MH_Movie_Seach_Bot?start=getfile-{link_slug}'>📂 Get File 📂</a> 👈🏻👈🏻👈🏻\n"
+
+        # Buttons
         buttons = [[
             InlineKeyboardButton(f"❤️ {reaction_counts[unique_id]['❤️']}", callback_data=f"r_{unique_id}_h"),
             InlineKeyboardButton(f"👍 {reaction_counts[unique_id]['👍']}", callback_data=f"r_{unique_id}_l"),
@@ -203,9 +190,21 @@ async def send_movie_update(bot, file_name, caption):
         ]]
 
         if poster:
-            await bot.send_photo(chat_id=MOVIE_UPDATE_CHANNEL, photo=poster, caption=full_caption, reply_markup=InlineKeyboardMarkup(buttons))
+            await bot.send_photo(
+                chat_id=MOVIE_UPDATE_CHANNEL,
+                photo=poster,
+                caption=full_caption,
+                reply_markup=InlineKeyboardMarkup(buttons),
+                parse_mode=ParseMode.HTML
+            )
         else:
-            await bot.send_message(chat_id=MOVIE_UPDATE_CHANNEL, text=full_caption, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True)
+            await bot.send_message(
+                chat_id=MOVIE_UPDATE_CHANNEL,
+                text=full_caption,
+                reply_markup=InlineKeyboardMarkup(buttons),
+                disable_web_page_preview=True,
+                parse_mode=ParseMode.HTML
+            )
 
     except Exception as e:
         print(f"Error in send_movie_update: {e}")
@@ -427,6 +426,7 @@ async def fetch_tmdb_data(query, year=None):
 
 def generate_unique_id(movie_name):
     return hashlib.md5(movie_name.encode('utf-8')).hexdigest()[:5]
+
 
 
 
