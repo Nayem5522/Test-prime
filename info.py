@@ -70,7 +70,7 @@ PAYMENT_TEXT = environ.get('PAYMENT_TEXT', '<b>- ᴀᴠᴀɪʟᴀʙʟᴇ ᴘʟ�
 OWNER_USERNAME = environ.get('OWNER_USERNAME', 'Master3809') # owner username without @
 
 UPCHANNELS = [
-    -1002342980086
+    -1003317643018
 ] 
 
 MOVIE_UPDATE_CHANNEL = -1002485306483 
@@ -182,6 +182,7 @@ LOG_STR += f"Your current IMDB template is {IMDB_TEMPLATE}"
 # Don't Remove Credit @VJ_Botz
 # Subscribe YouTube Channel For Amazing Bot @Tech_VJ
 # Ask Doubt on telegram @KingVJ01
+
 
 
 
