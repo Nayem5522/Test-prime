@@ -93,6 +93,7 @@ async def media_new(bot, message):
 async def send_movie_update(bot, file_name, caption):
     try:
         # --- 1. Smart Link & Check ---
+        # এই ফাংশনটি এখন শুধু প্রথম শব্দ রিটার্ন করবে
         link_slug = await get_smart_link_slug(file_name)
         unique_id = generate_unique_id(link_slug)
         
@@ -170,6 +171,9 @@ async def send_movie_update(bot, file_name, caption):
                 full_caption += f"│ {line}\n"
         full_caption += "╰━━━━━━━━━━━━━━━━━━━━━╯\n\n"
 
+        full_caption += "✨ Must Join Our Main Channel 👇🏻\n"
+        full_caption += "        (@mhmoviebackup)\n\n"
+        
         # Engage Section
         full_caption += "╭─━━━━⌁ ᴇɴɢᴀɢᴇ ᴡɪᴛʜ ᴘᴏꜱᴛ ⌁━━━━─╮\n"
         full_caption += "┃ ♡ 𝐋𝐢𝐤𝐞  ❍ 𝐂𝐨𝐦𝐦𝐞𝐧𝐭  ⎙ 𝐒𝐚𝐯𝐞  ⌲ 𝐒𝐡𝐚𝐫𝐞\n"
@@ -286,41 +290,41 @@ async def extract_info_from_filename(filename):
     return title.strip(), year
 
 async def get_only_season(text):
-    """
-    শুধুমাত্র সিজন নম্বর বের করে: Season 1, Season 2
-    Episode, Combined এগুলো বাদ।
-    """
     text = re.sub(r'[._]', ' ', text)
-    # শুধুমাত্র S01 বা Season 1 খুঁজবে
     match = re.search(r'(?i)\b(?:S|Season)\s*(\d+)', text)
     if match:
         season_num = int(match.group(1))
         return f"Season {season_num}"
     return None
 
+# =========================================================
+#  🔥 UPDATED FUNCTION: FIRST WORD ONLY (As requested) 🔥
+# =========================================================
 async def get_smart_link_slug(filename):
+    # ১. ফাইলের এক্সটেনশন বাদ দেওয়া
     clean = re.sub(r'\.\w+$', '', filename)
+    
+    # ২. লিংক বা ইউজারনেম বাদ দেওয়া
     clean = re.sub(r'https?://\S+|@\w+', '', clean)
-    clean_text = re.sub(r'[^a-zA-Z0-9\s]', ' ', clean)
+    
+    # ৩. ইংরেজি অক্ষর ও সংখ্যা ছাড়া বাকি সব চিহ্নকে স্পেস বানানো
+    clean_text = re.sub(r'[^a-zA-Z0-9]', ' ', clean)
+    
+    # ৪. অতিরিক্ত স্পেস রিমুভ করা
     clean_text = re.sub(r'\s+', ' ', clean_text).strip()
+    
+    # ৫. শব্দগুলো আলাদা করা
     words = clean_text.split()
-    selected_words = []
-    found_year = False
-    for i in range(min(len(words), 3)):
-        word = words[i]
-        if re.match(r'^(19|20)\d{2}$', word):
-            selected_words = words[:i+1]
-            found_year = True
-            break
-    if not found_year:
-        selected_words = words[:3]
-    base_slug = "-".join(selected_words)
-    final_slug = re.sub(r'[^a-zA-Z0-9\-]', '', base_slug)
-    return final_slug
+    
+    # ৬. শুধু প্রথম শব্দটি রিটার্ন করা
+    if words:
+        return words[0]  # উদাহরণ: Kgf (2018) -> Kgf
+        
+    # যদি কোনো কারণে শব্দ না থাকে, পুরো টেক্সট রিটার্ন করা
+    return clean_text
 
 async def clean_search_query(text):
     text = re.sub(r'[._\-\(\)\[\]\{\}]', ' ', text)
-    # সিজন এবং এপিসোড রিমুভ (সার্চের সুবিধার জন্য)
     text = re.sub(r'\b(S\d+|Season\s*\d+|Ep?\d+)\b', '', text, flags=re.IGNORECASE)
     junk = r'\b(Download|Downlo|Complete|Netflix|Amazon|Prime|Hulu|Hotstar|Series|Movie|Official|Dubbed|Dual|Audio|Sub|ESub|NF|AV1|Vista|AAC|AAC5\.1|Combined|Pack)\b'
     text = re.sub(junk, '', text, flags=re.IGNORECASE)
@@ -348,7 +352,6 @@ async def get_formatted_language(filename, caption):
 async def get_qualities(text):
     text_lower = (text or "").lower()
     quality_list = []
-    # শুধুমাত্র সোর্স কোয়ালিটি (রেজোলিউশন বাদ)
     QUALITY_MAP = {
         "uncut": "Uncut", "director's cut": "Director's Cut", "imax": "IMAX",
         "remastered": "Remastered", "org": "Original Aud",
@@ -359,46 +362,35 @@ async def get_qualities(text):
         "web-dl": "WEB-DL", "webdl": "WEB-DL", "web-rip": "WEBRip", "webrip": "WEBRip",
         "web": "WEB-DL", "hdrip": "HDRip", "dvdrip": "DVDRip",
     }
-
     for key, value in QUALITY_MAP.items():
         if re.search(r'\b' + re.escape(key) + r'\b', text_lower):
             quality_list.append(value)
             break 
-
     if not quality_list: return "HDRip"
     return " | ".join(quality_list)
 
 async def fetch_tmdb_data(query, year=None):
     try:
-        # 1. MOVIE Search
         params = {"api_key": TMDB_API, "query": query}
         if year and year != "N/A": params["year"] = year
-        
         res = requests.get("https://api.themoviedb.org/3/search/movie", params=params, timeout=5)
         results = res.json().get("results", [])
         
-        # 2. TV SEARCH (যদি মুভি না পায়)
         is_tv = False
         if not results:
-            # TV শো খোঁজার সময় 'year' প্যারামিটার 'first_air_date_year' হিসেবে ব্যবহার হয়
             params_tv = {"api_key": TMDB_API, "query": query}
             if year and year != "N/A": params_tv["first_air_date_year"] = year
-            
             res_tv = requests.get("https://api.themoviedb.org/3/search/tv", params=params_tv, timeout=5)
             results = res_tv.json().get("results", [])
             is_tv = True
 
         if not results: return {}
-        
         matched_item = results[0]
         item_id = matched_item.get("id")
-        
-        # Details Fetch (Movie বা TV এর জন্য আলাদা URL)
         endpoint = "tv" if is_tv else "movie"
         details_res = requests.get(f"https://api.themoviedb.org/3/{endpoint}/{item_id}?api_key={TMDB_API}", timeout=5)
         details = details_res.json()
         
-        # Data Extraction (TV এবং Movie এর key আলাদা হতে পারে)
         poster_path = details.get("poster_path") or matched_item.get("poster_path")
         backdrop_path = details.get("backdrop_path")
         image_url = None
@@ -407,8 +399,6 @@ async def fetch_tmdb_data(query, year=None):
         
         genres_list = [g["name"] for g in details.get("genres", [])]
         genres_str = ", ".join(genres_list[:2])
-        
-        # TV Shows এর জন্য 'name' এবং 'first_air_date'
         title = details.get("name") if is_tv else details.get("title")
         release_date = details.get("first_air_date") if is_tv else details.get("release_date")
         
@@ -426,10 +416,4 @@ async def fetch_tmdb_data(query, year=None):
 
 def generate_unique_id(movie_name):
     return hashlib.md5(movie_name.encode('utf-8')).hexdigest()[:5]
-
-
-
-
-
-
-
+    
