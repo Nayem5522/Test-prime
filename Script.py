@@ -27,7 +27,7 @@ Hᴇʀᴇ Is Tʜᴇ Hᴇʟᴘ Fᴏʀ Mʏ Cᴏᴍᴍᴀɴᴅs.</b>"""
 ‣ ᴀᴅᴍɪɴ  : <a href='https://t.me/Master3809'>🎩 ᴍʀ.ᴍᴀsᴛᴇʀ 🎩</a> 
 ‣ ᴍʏ ʙᴇsᴛ ғʀɪᴇɴᴅ : <a href='tg://settings'>ᴛʜɪs ᴘᴇʀsᴏɴ</a> 
 ‣ ᴅᴇᴠᴇʟᴏᴘᴇʀ : <a href='https://t.me/MR_PRIME_SUPREME'>ᴍʀ.ᴘʀɪᴍᴇ</a> 
-‣ ʙᴏᴛ sᴇʀᴠᴇʀ : <a href='https://t.me/Prime_Botz'>ᴘʀɪᴍᴇ ʙᴏᴛᴢ</a> 
+‣ ʙᴏᴛ sᴇʀᴠᴇʀ : <a href='https://t.me/PrimeXBots'>ᴘʀɪᴍᴇXʙᴏᴛs</a> 
 ‣ ᴅᴀᴛᴀ ʙᴀsᴇ : <a href='https://www.mongodb.com/'>ᴍᴏɴɢᴏ ᴅʙ</a>  
 ‣ ʙᴜɪʟᴅ sᴛᴀᴛᴜs : ᴠ2.7.1 [sᴛᴀʙʟᴇ]></b>"""
 
@@ -118,7 +118,7 @@ Cᴏᴍᴍᴀɴᴅs Aɴᴅ Usᴀɢᴇ:
 my features Stay here new features coming soon...  
  <b>✯ Maintained by : <a href=https://t.me/Prime_Nayem>☢S.H Nayem ☢</a></b>
   
- <b>✯ Join here : <a href=https://t.me/Prime_Movies4U>☢Join my updateds☢</a></b> 
+ <b>✯ Join here : <a href=https://t.me/PrimeXBots>☢Join my updateds☢</a></b> 
   
  ./id - <code>ɢᴇᴛ ɪᴅ ᴏꜰ ᴀ ꜱᴘᴇᴄɪꜰɪᴇᴅ ᴜꜱᴇʀ.</ 
  code> 
@@ -241,7 +241,7 @@ Nᴀᴍᴇ - {}
  
  •────•────✦✗✦───•────•
  
- <b>ᴊᴏɪɴ ɴᴏᴡ ➠ :</b> <a href='https://t.me/mhmoviebackup'>ᴍʀ.ʙᴀᴄᴋ-ᴜᴘ</a>"""
+ <b>ᴊᴏɪɴ ɴᴏᴡ ➠ :</b> <a href='https://t.me/MHBD_Movies'>ᴍʀ.ʙᴀᴄᴋ-ᴜᴘ</a>"""
     
     IMDB_TEMPLATE_TXT = """
 <b>Query: {qurey}
@@ -764,3 +764,4 @@ Example:- /set_caption 📕 File Name: {filename}
 
 
     
+
