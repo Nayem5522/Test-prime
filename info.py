@@ -27,6 +27,7 @@ SPELL_IMG = environ.get("SPELL_IMG", "https://i.ibb.co/GvR0CbMG/photo-2025-04-07
 # Admins, Channels & Users
 LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002184630716'))
 ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '5926160191').split()]
+WHITELIST_USERS = [int(x) for x in os.environ.get("WHITELIST_USERS", "").split()]
 CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1002342980086 -1003725991758').split()]
 auth_users = [int(user) if id_pattern.search(user) else user for user in environ.get('AUTH_USERS', '').split()]
 AUTH_USERS = (auth_users + ADMINS) if auth_users else []
@@ -184,6 +185,7 @@ LOG_STR += f"Your current IMDB template is {IMDB_TEMPLATE}"
 # Don't Remove Credit @VJ_Botz
 # Subscribe YouTube Channel For Amazing Bot @Tech_VJ
 # Ask Doubt on telegram @KingVJ01
+
 
 
 
