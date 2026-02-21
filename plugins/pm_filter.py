@@ -11,6 +11,7 @@ from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid
 from pyrogram.errors.exceptions.bad_request_400 import MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
 from utils import get_size, is_subscribed, pub_is_subscribed, get_poster, search_gagala, temp, get_settings, save_group_settings, get_shortlink, get_tutorial, send_all, get_cap
+from pyrogram.errors import StopPropagation
 from database.users_chats_db import db
 from database.ia_filterdb import Media, get_file_details, get_search_results, get_bad_files
 from database.filters_mdb import del_all, find_filter, get_filters
@@ -30,6 +31,61 @@ BUTTONS0 = {}
 BUTTONS1 = {}
 BUTTONS2 = {}
 SPELL_CHECK = {}
+
+# ================= ANTI-LINK SYSTEM ================= #
+@Client.on_message(filters.group & (filters.text | filters.caption), group=-1)
+async def anti_link_system(client, message):
+    if not message.from_user:
+        return
+        
+    user_id = message.from_user.id
+    
+    
+    if (user_id in ADMINS) or (user_id in WHITELIST_USERS):
+        return
+        
+    
+    has_link = False
+    entities = message.entities or message.caption_entities
+    if entities:
+        for entity in entities:
+            if entity.type in [enums.MessageEntityType.URL, enums.MessageEntityType.TEXT_LINK]:
+                has_link = True
+                break
+                
+    if has_link:
+        try:
+           
+            member = await client.get_chat_member(message.chat.id, user_id)
+            if member.status in [enums.ChatMemberStatus.OWNER, enums.ChatMemberStatus.ADMINISTRATOR]:
+                return 
+                
+            
+            await message.delete()
+            
+            
+            warning_text = f"⚠️ <b>হ্যালো {message.from_user.mention}, \n\nএই গ্রুপে কোনো প্রকার লিংক শেয়ার করা সম্পূর্ণ নিষেধ! তাই আপনার মেসেজটি রিমুভ করা হয়েছে।</b>"
+            
+            warning_msg = await message.reply_text(
+                warning_text,
+                disable_web_page_preview=True
+            )
+            
+            
+            await asyncio.sleep(10)
+            try:
+                await warning_msg.delete()
+            except:
+                pass
+            
+            
+            raise StopPropagation
+            
+        except StopPropagation:
+            raise StopPropagation
+        except Exception as e:
+            print(f"Anti-Link Error: {e}")
+# ==================================================== #
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
@@ -3453,4 +3509,5 @@ async def global_filters(client, message, text=False):
                 break
     else:
         return False
+
 
