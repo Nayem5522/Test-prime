@@ -27,7 +27,7 @@ SPELL_IMG = environ.get("SPELL_IMG", "https://i.ibb.co/GvR0CbMG/photo-2025-04-07
 # Admins, Channels & Users
 LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002184630716'))
 ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '5926160191').split()]
-CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1002342980086').split()]
+CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1002342980086 -1003725991758').split()]
 auth_users = [int(user) if id_pattern.search(user) else user for user in environ.get('AUTH_USERS', '').split()]
 AUTH_USERS = (auth_users + ADMINS) if auth_users else []
 
@@ -86,8 +86,8 @@ PUBLIC_FILE_CHANNEL = environ.get('PUBLIC_FILE_CHANNEL', 'pri_Nay1') # Public Ch
 
 # Links
 GRP_LNK = environ.get('GRP_LNK', 'https://t.me/cinelolmovie')
-CHNL_LNK = environ.get('CHNL_LNK', 'https://t.me/mhmoviebackup')
-MAINCHANL_LNK = environ.get('MAINCHANL_LNK', 'https://t.me/First_Uploading_Content')
+CHNL_LNK = environ.get('CHNL_LNK', 'https://t.me/MHBD_Movies')
+MAINCHANL_LNK = environ.get('MAINCHANL_LNK', 'https://t.me/mhbd_official')
 PSUP_LNK = environ.get('PSUP_LNK', 'https://t.me/first_uploading_contents')
 TUTORIAL = environ.get('TUTORIAL', 'https://t.me/How_To_download_system/3')
 SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'First_Uploading_Content') # Support Chat Link Without https:// or @
@@ -184,6 +184,7 @@ LOG_STR += f"Your current IMDB template is {IMDB_TEMPLATE}"
 # Don't Remove Credit @VJ_Botz
 # Subscribe YouTube Channel For Amazing Bot @Tech_VJ
 # Ask Doubt on telegram @KingVJ01
+
 
 
 
