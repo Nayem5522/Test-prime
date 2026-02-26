@@ -143,7 +143,7 @@ async def send_movie_update(bot, file_name, caption):
             user_reactions[unique_id] = {}
 
         # --- 5. DESIGN SECTION ---
-        full_caption = "#𝑵𝒆𝒘_𝑪𝒐𝒏𝒕𝒆𝒏𝒕_𝑨𝒅𝒅𝒆𝒅 💌 #@MHBD_Movies\n\n"
+        full_caption = "#𝑵𝒆𝒘_𝑪𝒐𝒏𝒕𝒆𝒏𝒕_𝑨𝒅𝒅𝒆𝒅 💌 #MHBD_Movies #mhbd\n\n"
         full_caption += "╭─━━━⌁ 𝘾𝙊𝙉𝙏𝙀𝙉𝙏 𝙄𝙉𝙁𝙊 ⌁━━━─╮\n"
 
         # Title
@@ -417,4 +417,5 @@ async def fetch_tmdb_data(query, year=None):
 def generate_unique_id(movie_name):
     return hashlib.md5(movie_name.encode('utf-8')).hexdigest()[:5]
     
+
 
