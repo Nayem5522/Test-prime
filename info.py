@@ -77,7 +77,7 @@ UPCHANNELS = [
     -1003725991758
 ] 
 
-MOVIE_UPDATE_CHANNEL = -1003888716434 
+MOVIE_UPDATE_CHANNEL = -1003863491259 
 TMDB_API = "ef6c6375cae3e583606e8ac21c964a88"
 
 
@@ -186,6 +186,7 @@ LOG_STR += f"Your current IMDB template is {IMDB_TEMPLATE}"
 # Don't Remove Credit @VJ_Botz
 # Subscribe YouTube Channel For Amazing Bot @Tech_VJ
 # Ask Doubt on telegram @KingVJ01
+
 
 
 
