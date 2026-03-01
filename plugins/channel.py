@@ -344,14 +344,20 @@ async def get_only_season(text):
     return None
 
 async def get_smart_link_slug(filename):
+
+    # ১. ফাইলের এক্সটেনশন বাদ দেওয়া
     clean = re.sub(r'\.\w+$', '', filename)
+    # ২. লিংক বা ইউজারনেম বাদ দেওয়া
     clean = re.sub(r'https?://\S+|@\w+', '', clean)
+    # ৩. ইংরেজি অক্ষর ও সংখ্যা ছাড়া বাকি সব চিহ্নকে স্পেস বানানো
     clean_text = re.sub(r'[^a-zA-Z0-9]', ' ', clean)
+    # ৪. অতিরিক্ত স্পেস রিমুভ করা
     clean_text = re.sub(r'\s+', ' ', clean_text).strip()
+    # ৫. শব্দগুলো আলাদা করা
     words = clean_text.split()
+    # ৬. শুধু প্রথম শব্দটি রিটার্ন করা
     if words:
-        return words[0] 
-    return clean_text
+        return words[0]  # উদাহরণ: Kgf (2018) -> Kgf
 
 async def clean_search_query(text):
     text = re.sub(r'[._\-\(\)\[\]\{\}]', ' ', text)
