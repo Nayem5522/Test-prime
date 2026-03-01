@@ -194,7 +194,7 @@ async def send_movie_update(bot, file_name, caption):
 
         # --- 5. DESIGN SECTION ---
         full_caption = "#𝑵𝒆𝒘_𝑪𝒐𝒏𝒕𝒆𝒏𝒕_𝑨𝒅𝒅𝒆𝒅 💌 #MHBD_Movies #mhbd\n\n"
-        full_caption += "╭─━━━⌁ 𝘾𝙊𝙉𝙏𝙀𝙉্নে 𝙄𝙉𝙁𝙊 ⌁━━━─╮\n"
+        full_caption += "╭─━━━⌁ 𝘾𝙊𝙉𝙏𝙀𝙉𝙏 𝙄𝙉𝙁𝙊 ⌁━━━─╮\n"
 
         title_lines = textwrap.wrap(title, width=32)
         full_caption += f"│ 📂 𝐓𝐢𝐭𝐥𝐞: <b>{title_lines[0]}</b>\n"
