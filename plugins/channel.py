@@ -344,20 +344,27 @@ async def get_only_season(text):
     return None
 
 async def get_smart_link_slug(filename):
-
-    # ১. ফাইলের এক্সটেনশন বাদ দেওয়া
+    # ১. ফাইলের এক্সটেনশন এবং লিংক/ইউজারনেম বাদ দেওয়া
     clean = re.sub(r'\.\w+$', '', filename)
-    # ২. লিংক বা ইউজারনেম বাদ দেওয়া
     clean = re.sub(r'https?://\S+|@\w+', '', clean)
+    
+    # ২. অপ্রয়োজনীয় কোয়ালিটি ট্যাগ বাদ দেওয়া (যেন সার্চ একদম পারফেক্ট হয়)
+    unwanted = r'\b(?:1080p|720p|480p|2160p|HEVC|WEB-DL|BluRay|HDRip|CAMRip|x264|x265|Dual|Audio|Sub|Netflix|Amazon|Download|mkv|mp4)\b'
+    clean = re.sub(unwanted, '', clean, flags=re.IGNORECASE)
+    
     # ৩. ইংরেজি অক্ষর ও সংখ্যা ছাড়া বাকি সব চিহ্নকে স্পেস বানানো
     clean_text = re.sub(r'[^a-zA-Z0-9]', ' ', clean)
-    # ৪. অতিরিক্ত স্পেস রিমুভ করা
-    clean_text = re.sub(r'\s+', ' ', clean_text).strip()
-    # ৫. শব্দগুলো আলাদা করা
+    
+    # ৪. অতিরিক্ত স্পেস রিমুভ করে শব্দগুলো আলাদা করা
     words = clean_text.split()
-    # ৬. শুধু প্রথম শব্দটি রিটার্ন করা
+    
+    # ৫. আগে শুধু প্রথম শব্দ (words[0]) রিটার্ন হতো, এখন পুরো নামটা (সর্বোচ্চ ৬টি শব্দ) হাইফেন দিয়ে রিটার্ন করবে
     if words:
-        return words[0]  # উদাহরণ: Kgf (2018) -> Kgf
+        # যেমন: "The Competition 2018" হয়ে যাবে "The-Competition-2018"
+        return "-".join(words[:3])
+        
+    # যদি কোনো কারণে শব্দ না থাকে
+    return "Movie-File"
 
 async def clean_search_query(text):
     text = re.sub(r'[._\-\(\)\[\]\{\}]', ' ', text)
