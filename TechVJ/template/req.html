@@ -1,346 +1,562 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{file_name}} | PRIME STREAM</title>
 
-  <!-- Favicon -->
-  <link rel="icon" href="https://i.ibb.co/Hh4kF2b/icon.png" type="image/x-icon">
-  <link rel="shortcut icon" href="https://i.ibb.co/Hh4kF2b/icon.png" type="image/x-icon">
-  <meta property="og:image" content="https://i.ibb.co/Hh4kF2b/icon.png" itemprop="thumbnailUrl">
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>UHD Bots | UHD Streaming</title>
+
+
+
+  <link rel="shortcut icon" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png" type="image/x-icon">
+
+  <meta property="og:image" content="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png" itemprop="thumbnailUrl">
+
   
-  <!-- Professional Fonts (Montserrat for Headings, Poppins for Text) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  
-  <!-- Font Awesome Icons -->
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@700&display=swap">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
+
+
   <style>
+
     :root {
-      --primary-color: #00f7ff;
-      --secondary-color: #ff00c8;
-      --bg-dark: #0a0a0f;
-      --card-bg: rgba(20, 20, 28, 0.7);
-      --text-main: #ffffff;
-      --text-muted: #a0a0b0;
+
+      --neon-pink: #ff00c8;
+
+      --neon-blue: #00f7ff;
+
+      --neon-purple: #9d00ff;
+
+      --dark: #0a0a0f;
+
+      --grid: rgba(255,255,255,0.05);
+
     }
 
-    * { 
-      margin: 0; 
-      padding: 0; 
-      box-sizing: border-box; 
-    }
+
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0a0a0f 0%, #1a0b2e 100%);
+
+      font-family: 'Orbitron', sans-serif;
+
+      background: linear-gradient(180deg, #0a0a0f 0%, #120024 100%);
+
       min-height: 100vh;
-      color: var(--text-main);
+
+      color: #fff;
+
       overflow-x: hidden;
+
       display: flex;
+
       justify-content: center;
+
       padding: 40px 15px;
+
       position: relative;
+
     }
 
-    /* Subtle Premium Background Grid */
+
+
+    
+
     body::before {
+
       content: "";
+
       position: absolute;
+
       top: 0; left: 0; right: 0; bottom: 0;
-      background: 
-        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-      background-size: 30px 30px;
+
+      background: repeating-linear-gradient(
+
+        to right,
+
+        var(--grid) 0px,
+
+        var(--grid) 1px,
+
+        transparent 1px,
+
+        transparent 60px
+
+      ),
+
+      repeating-linear-gradient(
+
+        to bottom,
+
+        var(--grid) 0px,
+
+        var(--grid) 1px,
+
+        transparent 1px,
+
+        transparent 60px
+
+      );
+
       z-index: 0;
+
     }
 
-    .container { 
-      width: 100%; 
-      max-width: 850px; 
-      text-align: center; 
-      z-index: 1; 
-    }
 
-    .header {
-      margin-bottom: 35px;
-    }
+
+    .container { width: 100%; max-width: 900px; text-align: center; z-index: 1; }
+
+
 
     .header h1 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 2.5rem;
-      font-weight: 800;
-      letter-spacing: 1px;
-      background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+
+      font-family: 'Press Start 2P', cursive;
+
+      font-size: 2rem;
+
+      background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
+
       -webkit-background-clip: text;
+
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 4px 15px rgba(0, 247, 255, 0.2);
-      margin-bottom: 5px;
+
+      text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-blue);
+
+      margin-bottom: 15px;
+
     }
 
     .subtitle {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      font-weight: 400;
-      letter-spacing: 0.5px;
-    }
 
-    /* Professional Glassmorphism Card */
-    .card {
-      background: var(--card-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 16px;
-      padding: 25px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      font-size: 1rem;
+
+      color: #ccc;
+
       margin-bottom: 30px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      font-family: 'Orbitron', sans-serif;
+
     }
 
-    .card:hover { 
-      transform: translateY(-3px); 
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+
+    .telegram-float{
+
+  position:fixed;
+
+  left:18px;
+
+  bottom:90px;
+
+  width:56px;
+
+  height:56px;
+
+  background:#ffffff;
+
+  border-radius:50%;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+
+
+  text-decoration:none !important;   /* 🔥 REMOVE LINE */
+
+  line-height:0 !important;          /* 🔥 REMOVE BASELINE */
+
+  border:none;
+
+  outline:none;
+
+
+
+  font-size:28px;
+
+  z-index:9999;
+
+  box-shadow:0 0 18px rgba(0,136,204,0.6);
+
+  transition:.3s ease;
+
+}
+
+
+
+/* ICON */
+
+.telegram-float i{
+
+  color:#0088CC;
+
+  line-height:1;          /* 🔥 fix icon baseline */
+
+  text-decoration:none !important;
+
+}
+
+
+
+/* hover */
+
+.telegram-float:hover{
+
+  transform:scale(1.15);
+
+  box-shadow:0 0 30px rgba(0,136,204,1);
+
+}
+
+
+
+    
+
+    .card {
+
+      background: rgba(10, 10, 25, 0.8);
+
+      border-radius: 18px;
+
+      padding: 25px;
+
+      border: 2px solid var(--neon-purple);
+
+      box-shadow: 0 0 15px var(--neon-purple), inset 0 0 20px rgba(255,255,255,0.05);
+
+      margin-bottom: 25px;
+
+      transition: transform 0.3s ease;
+
     }
+
+    .card:hover { transform: translateY(-5px) scale(1.02); }
+
+
 
     .card-title {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--primary-color);
+
+      font-family: 'Press Start 2P', cursive;
+
+      font-size: 1rem;
+
+      color: var(--neon-blue);
+
       margin-bottom: 20px;
+
+      text-shadow: 0 0 10px var(--neon-blue);
+
       display: flex;
+
       justify-content: center;
-      gap: 10px;
+
+      gap: 8px;
+
       align-items: center;
-      line-height: 1.5;
-      word-break: break-word;
+
     }
+
+
 
     video {
+
       width: 100%;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+
+      border-radius: 10px;
+
+      border: 2px solid var(--neon-pink);
+
       background: #000;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
-      outline: none;
+
+      box-shadow: 0 0 20px var(--neon-pink);
+
     }
+
+
 
     .file-info {
-      margin-top: 18px;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      display: inline-block;
-      background: rgba(0, 0, 0, 0.3);
-      padding: 8px 20px;
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.05);
+
+      margin-top: 14px;
+
+      font-size: 0.85rem;
+
+      color: #bbb;
+
+      font-family: 'Orbitron', sans-serif;
+
     }
-    
-    .file-info b { 
-      color: var(--primary-color); 
-      font-weight: 600;
-    }
+
+    .file-info b { color: var(--neon-blue); }
+
+
 
     .btn-group {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-top: 10px;
+
+      margin-top: 25px;
+
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 14px;
+
+      justify-content: center;
+
     }
+
+
 
     .btn {
-      padding: 14px 20px;
-      border-radius: 10px;
-      font-size: 0.95rem;
+
+      padding: 12px 20px;
+
+      border-radius: 6px;
+
+      font-size: 0.85rem;
+
       font-weight: 600;
+
       text-decoration: none;
+
       display: flex;
+
       align-items: center;
-      justify-content: center;
-      gap: 10px;
+
+      gap: 8px;
+
       transition: all 0.3s ease;
-      cursor: pointer;
-      border: none;
-      font-family: 'Poppins', sans-serif;
+
+      position: relative;
+
+      overflow: hidden;
+
+      font-family: 'Orbitron', sans-serif;
+
     }
+
+
 
     .btn-primary {
-      background: linear-gradient(135deg, #00f7ff, #0088ff);
+
+      background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+
       color: #000;
-      box-shadow: 0 4px 15px rgba(0, 247, 255, 0.3);
+
+      text-shadow: none;
+
+      box-shadow: 0 0 12px var(--neon-pink), 0 0 18px var(--neon-blue);
+
     }
 
-    .btn-primary:hover { 
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 247, 255, 0.5); 
-    }
+    .btn-primary:hover { transform: scale(1.08); }
 
-    .btn-secondary {
-      background: linear-gradient(135deg, #ff00c8, #9d00ff);
-      color: #fff;
-      box-shadow: 0 4px 15px rgba(255, 0, 200, 0.3);
-    }
 
-    .btn-secondary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(255, 0, 200, 0.5);
-    }
 
     .btn-alt {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #fff;
+
+      background: transparent;
+
+      border: 2px solid var(--neon-blue);
+
+      color: var(--neon-blue);
+
+      text-shadow: 0 0 8px var(--neon-blue);
+
     }
 
     .btn-alt:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: var(--primary-color);
-      color: var(--primary-color);
-      transform: translateY(-2px);
+
+      background: var(--neon-blue);
+
+      color: #000;
+
+      box-shadow: 0 0 12px var(--neon-blue);
+
     }
 
-    /* Floating Telegram Button */
-    .telegram-float {
-      position: fixed;
-      left: 20px;
-      bottom: 25px;
-      width: 55px;
-      height: 55px;
-      background: #0088CC;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      color: #fff;
-      font-size: 26px;
-      z-index: 9999;
-      box-shadow: 0 4px 15px rgba(0, 136, 204, 0.5);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
 
-    .telegram-float:hover {
-      transform: scale(1.1) translateY(-3px);
-      box-shadow: 0 6px 20px rgba(0, 136, 204, 0.8);
-      color: #fff;
-    }
-    
+
     footer {
-      margin-top: 40px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      padding-top: 20px;
-      border-top: 1px solid rgba(255,255,255,0.05);
+
+      margin-top: 35px;
+
+      font-size: 0.75rem;
+
+      color: #aaa;
+
+      padding-top: 15px;
+
+      border-top: 1px solid rgba(255,255,255,0.1);
+
+      font-family: 'Orbitron', sans-serif;
+
     }
 
-    footer a { 
-      text-decoration: none; 
-      color: var(--primary-color);
-      font-weight: 600;
-      transition: color 0.3s;
+    footer b {
+
+      color: var(--neon-pink);
+
+      text-shadow: 0 0 8px var(--neon-pink);
+
     }
+
+
+
     
-    footer a:hover {
-      color: var(--secondary-color);
-    }
 
-    /* Modern Toast Notification */
     .toast {
+
       position: fixed;
-      bottom: 30px;
+
+      bottom: 20px;
+
       left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(10px);
-      color: #fff;
-      padding: 12px 25px;
-      border-radius: 30px;
-      border: 1px solid var(--primary-color);
-      font-size: 0.9rem;
-      font-weight: 500;
-      box-shadow: 0 5px 15px rgba(0, 247, 255, 0.2);
-      opacity: 0; 
-      visibility: hidden;
-      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      z-index: 10000;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+
+      transform: translateX(-50%);
+
+      background: #111;
+
+      color: var(--neon-blue);
+
+      padding: 10px 20px;
+
+      border-radius: 6px;
+
+      border: 1px solid var(--neon-blue);
+
+      font-size: 0.85rem;
+
+      text-shadow: 0 0 8px var(--neon-blue);
+
+      box-shadow: 0 0 12px rgba(0,255,255,0.3);
+
+      opacity: 0; visibility: hidden;
+
+      transition: opacity 0.3s, visibility 0.3s;
+
     }
 
-    .toast.show { 
-      opacity: 1; 
-      visibility: visible; 
-      transform: translateX(-50%) translateY(0);
-    }
+    .toast.show { opacity: 1; visibility: visible; }
+
+
 
     @media (max-width: 600px) {
-      .header h1 { font-size: 1.8rem; }
-      .card-title { font-size: 0.95rem; }
-      .btn-group { grid-template-columns: 1fr; }
-      .telegram-float { bottom: 20px; left: 15px; width: 50px; height: 50px; font-size: 24px;}
+
+      .header h1 { font-size: 1.4rem; }
+
+      .btn { flex: 1 1 100%; justify-content: center; }
+
     }
+
   </style>
+
 </head>
+
 <body>
 
   <div class="container">
+
     <div class="header">
-      <h1>PRIME STREAM</h1>
-      <p class="subtitle">Premium Movie & Series Platform</p>
+
+      <h1><i class="fa-solid fa-compact-disc fa-spin"></i> UHD NETWORK</h1>
+
+      <p class="subtitle">Luxury UHD Streaming Platform</p>
+
     </div>
+
+
 
     <div class="card">
-      <h2 class="card-title"><i class="fas fa-film"></i> {{file_name}}</h2>
+
+      <h2 class="card-title"><i class="fas fa-play-circle"></i> {{ file_name }}</h2>
+
       <video controls preload="metadata" playsinline>
-        <source src="{{file_url}}" type="video/mp4">
+
+        <source src="{{ file_url }}">
+
         Your browser does not support video playback.
+
       </video>
-      <div class="file-info">
-        <p>File Size: <b>{{file_size}}</b></p>
-      </div>
+
+      <div class="file-info"><p><b>Size:</b> {{ file_size }}</p></div>
+
     </div>
+
+
 
     <div class="btn-group">
-      <!-- Direct Download / Watch -->
-      <a class="btn btn-primary" href="{{file_url}}" download><i class="fas fa-cloud-download-alt"></i> Fast Download</a>
-      
-      <!-- Telegram Movie Channel Update (@PrimeCineZone) -->
-      <a class="btn btn-secondary" href="https://t.me/PrimeCineZone" target="_blank"><i class="fab fa-telegram-plane"></i> Join Movies Channel</a>
-      
-      <!-- External Players -->
-      <a class="btn btn-alt" href="intent:{{file_url}}#Intent;package=com.mxtech.videoplayer.ad;S.title={{file_name}};end"><i class="fas fa-play"></i> MX Player</a>
-      <a class="btn btn-alt" href="vlc://{{file_url}}"><i class="fas fa-play-circle"></i> VLC Player</a>
-      <a class="btn btn-alt" href="intent:{{file_url}}#Intent;package=com.inisoft.mediaplayer.a;S.title={{file_name}};end"><i class="fas fa-video"></i> nPlayer</a>
-      
-      <!-- Copy Link Button -->
+
+      <a class="btn btn-primary" href="{{ file_url }}" download><i class="fas fa-bolt"></i> Fast Download</a>
+
+      <a class="btn btn-primary" href="{{ file_url }}" target="_blank"><i class="fas fa-desktop"></i> Watch Online</a>
+
+      <a class="btn btn-alt" href="intent:{{ file_url }}#Intent;package=com.mxtech.videoplayer.ad;S.title={{ file_name }};end">
+
+        <i class="fas fa-play"></i> MX Player
+
+      </a>
+
+      <a class="btn btn-alt" href="vlc://{{ file_url }}"><i class="fas fa-play-circle"></i> VLC Player</a>
+
       <button class="btn btn-alt" onclick="copyLink()"><i class="fas fa-link"></i> Copy Link</button>
+
     </div>
 
-    <!-- Floating Telegram Button mapping to Bot Updates (@PrimeXBots) -->
-    <a href="https://t.me/PrimeXBots" class="telegram-float" target="_blank" aria-label="Telegram Updates">
-      <i class="fa-brands fa-telegram"></i>
-    </a>
+
+
+    <a href="https://t.me/UHDBots" class="telegram-float" target="_blank" aria-label="Telegram">
+
+  <i class="fa-brands fa-telegram fa-beat"></i>
+
+</a>
+
     
+
     <footer>
-      <p>© 2024–2025 <a href="https://t.me/PrimeXBots" target="_blank">Prime Bot's 🔥</a> All Rights Reserved.</p>
+
+      <p>© 2022–2026 <b>UHD Bots</b> All Rights Reserved</p>
+
     </footer>
+
   </div>
 
-  <div id="toast" class="toast"><i class="fas fa-check-circle" style="color: var(--primary-color);"></i> Link successfully copied!</div>
+
+
+  <div id="toast" class="toast">✅ Link copied!</div>
+
+
 
   <script>
+
     function copyLink() {
-      navigator.clipboard.writeText("{{file_url}}").then(() => {
+
+      navigator.clipboard.writeText("{{ file_url }}").then(() => {
+
         const toast = document.getElementById("toast");
+
         toast.classList.add("show");
+
         setTimeout(() => toast.classList.remove("show"), 3000);
+
       });
+
     }
+
   </script>
+
 </body>
-          </html>
+
+</html>
+
+
+
