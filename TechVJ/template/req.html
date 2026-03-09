@@ -104,10 +104,23 @@
         ::-webkit-scrollbar-track { background: #121824; }
         ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 10px; }
 
-        /* Plyr Video Override for Full Fit */
+        /* --- VIDEO PLAYER FRAME FIX --- */
+        .plyr {
+            width: 100% !important;
+            height: 100% !important;
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
         .plyr__video-wrapper {
-            width: 100%;
-            height: 100%;
+            width: 100% !important;
+            height: 100% !important;
+            background: #000;
+        }
+        /* Forces the video to cover the entire container without black bars */
+        .plyr video {
+            object-fit: cover !important; 
+            width: 100% !important;
+            height: 100% !important;
         }
     </style>
 </head>
@@ -131,25 +144,28 @@
     <main class="w-full max-w-[600px] mx-auto px-4 z-10 relative">
         
         <!-- Video Player Card -->
-        <div class="bg-[#121824] rounded-xl overflow-hidden border border-[#1f2937] shadow-xl mb-6">
+        <div class="bg-[#121824] rounded-xl overflow-hidden border border-[#1f2937] shadow-xl mb-6 flex flex-col">
             
-            <!-- Video Title (Made Bolder & Larger) -->
-            <div class="p-4 bg-[#121824] border-b border-[#1f2937]">
+            <!-- Video Title -->
+            <div class="p-4 bg-[#121824] border-b border-[#1f2937] z-10">
                 <h2 class="text-[#00e5ff] font-tech text-[16px] md:text-xl font-extrabold leading-snug flex items-start gap-2.5">
                     <i class="fas fa-play-circle mt-1 text-[#00e5ff] anim-pulse"></i>
                     <span class="break-words tracking-wide text-white">{{file_name}}</span>
                 </h2>
             </div>
 
-            <!-- Player (Added object-cover to fill space) -->
-            <div class="relative w-full aspect-video bg-black flex items-center justify-center overflow-hidden">
-                <video id="player" playsinline controls class="w-full h-full object-cover">
+            <!-- Player (Updated for Full Frame) -->
+            <div class="relative w-full aspect-video bg-black flex-grow">
+                <video id="player" playsinline controls crossorigin>
                     <source src="{{file_url}}" type="video/mp4" />
+                    <!-- Subtitle Tracks (Can be loaded if URLs are provided via bot) -->
+                    <track kind="captions" label="English" srclang="en" src="" default />
+                    <track kind="captions" label="Bangla" srclang="bn" src="" />
                 </video>
             </div>
 
             <!-- File Info (Size & Time) -->
-            <div class="flex justify-between items-center p-3 px-5 text-[13px] font-semibold bg-[#121824] border-t border-[#1f2937]">
+            <div class="flex justify-between items-center p-3 px-5 text-[13px] font-semibold bg-[#121824] border-t border-[#1f2937] z-10">
                 <div class="text-gray-200"><span class="text-[#4ade80]">Size:</span> {{file_size}}</div>
                 
                 <div class="text-gray-200">
@@ -212,7 +228,7 @@
                 </button>
             </div>
 
-            <!-- Bottom Action Buttons (Updated Links) -->
+            <!-- Bottom Action Buttons -->
             <div class="grid grid-cols-2 gap-3 pt-2">
                 <a href="https://t.me/PrimeXBots" class="btn-hover bg-[#eab308] hover:bg-[#ca8a04] text-black rounded-xl py-3 text-[13px] font-bold flex items-center justify-center gap-2 shadow-lg">
                     <i class="fas fa-paper-plane anim-bounce text-rose-700"></i> PRIME NETWORK™
@@ -266,7 +282,7 @@
                     </p>
                 </div>
 
-                <!-- Updates Section (Updated Link) -->
+                <!-- Updates Section -->
                 <div class="bg-gray-800/40 border border-blue-500/30 rounded-xl p-4 relative overflow-hidden group hover:border-blue-500/60 transition-colors">
                     <div class="absolute top-0 right-0 w-16 h-16 bg-blue-500/10 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
                     <h4 class="text-blue-400 font-bold text-base mb-2 font-tech flex items-center gap-2">
@@ -280,7 +296,7 @@
                     </a>
                 </div>
 
-                <!-- Contact Section (Updated Text & Link) -->
+                <!-- Contact Section -->
                 <div class="bg-gray-800/40 border border-rose-500/30 rounded-xl p-4 relative overflow-hidden group hover:border-rose-500/60 transition-colors">
                     <div class="absolute top-0 right-0 w-16 h-16 bg-rose-500/10 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
                     <h4 class="text-rose-400 font-bold text-base mb-2 font-tech flex items-center gap-2">
@@ -304,8 +320,14 @@
         let player;
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Updated settings to include captions(subtitles) and quality/language options
             player = new Plyr('#player', {
-                controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+                controls: [
+                    'play-large', 'play', 'progress', 'current-time', 
+                    'mute', 'volume', 'captions', 'settings', 'fullscreen'
+                ],
+                settings: ['captions', 'quality', 'speed'],
+                captions: { active: true, update: true, language: 'en' },
                 ratio: '16:9'
             });
         });
@@ -369,4 +391,4 @@
         function n_player() { window.location.href = "nplayer-{{file_url}}"; }
     </script>
 </body>
-    </html>
+</html>
