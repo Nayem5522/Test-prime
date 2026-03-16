@@ -1623,8 +1623,9 @@ async def purge_requests(client, message):
 # ==================================================== #
 from pyrogram.types import ChatPermissions
 from pyrogram import enums
+from pyrogram.errors import ChatAdminRequired, UserAdminInvalid
 
-# অ্যাডমিন চেক করার জন্য একটি হেল্পার ফাংশন
+# অ্যাডমিন চেক করার ফাংশন
 async def is_admin(client, message):
     if message.from_user.id in ADMINS:
         return True
@@ -1634,60 +1635,78 @@ async def is_admin(client, message):
     except:
         return False
 
-# 1. /pin loud Command
+# 1. /pin & /pin loud Command
 @Client.on_message(filters.command("pin") & filters.group)
 async def pin_message(client, message):
     if not await is_admin(client, message):
-        return await message.reply_text("<b>⚠️ Only group admins can use this command!</b>")
+        return await message.reply_text("<b>⚠️ This command is only for group admins!</b>")
     
+    if not message.reply_to_message:
+        return await message.reply_text("<b>⚠️ Error: You must reply to a message to pin it.</b>\n\n<b>Example:</b> Reply to any message and type <code>/pin</code> or <code>/pin loud</code>")
+    
+    # Check if they want a loud pin
+    is_loud = False
     if len(message.command) > 1 and message.command[1].lower() == "loud":
-        if not message.reply_to_message:
-            return await message.reply_text("<b>⚠️ Please reply to a message to pin it.</b>")
-        try:
-            await message.reply_to_message.pin(disable_notification=False)
-            await message.reply_text("<b>✅ Message pinned successfully with loud notification!</b>")
-        except Exception as e:
-            await message.reply_text(f"<b>❌ Failed to pin! Make sure I am an admin with pin rights. Error: {e}</b>")
+        is_loud = True
+
+    try:
+        await message.reply_to_message.pin(disable_notification=not is_loud)
+        if is_loud:
+            await message.reply_text("<b>✅ Message pinned successfully with a loud notification!</b>")
+        else:
+            await message.reply_text("<b>✅ Message pinned successfully (Silently)!</b>")
+    except ChatAdminRequired:
+        await message.reply_text("<b>❌ Error: I don't have the 'Pin Messages' permission in this group.</b>")
+    except Exception as e:
+        await message.reply_text(f"<b>❌ Failed to pin! Error:</b> <code>{e}</code>")
 
 # 2. /lock all Command
 @Client.on_message(filters.command("lock") & filters.group)
 async def lock_group(client, message):
     if not await is_admin(client, message):
-        return await message.reply_text("<b>⚠️ Only group admins can use this command!</b>")
+        return await message.reply_text("<b>⚠️ This command is only for group admins!</b>")
         
-    if len(message.command) > 1 and message.command[1].lower() == "all":
-        try:
-            await client.set_chat_permissions(message.chat.id, ChatPermissions(can_send_messages=False))
-            await message.reply_text("<b>🔒 Group Locked! Normal members cannot send messages now.</b>")
-        except Exception as e:
-            await message.reply_text(f"<b>❌ Failed to lock! Make sure I am an admin with restrict rights. Error: {e}</b>")
+    if len(message.command) < 2 or message.command[1].lower() != "all":
+        return await message.reply_text("<b>⚠️ Incorrect Usage!</b>\n\n<b>Example:</b> Type <code>/lock all</code> to lock the group so normal members cannot send messages.")
+
+    try:
+        await client.set_chat_permissions(message.chat.id, ChatPermissions(can_send_messages=False))
+        await message.reply_text("<b>🔒 Group Locked! Normal members cannot send messages now.</b>")
+    except ChatAdminRequired:
+        await message.reply_text("<b>❌ Error: I don't have 'Restrict Members' permission to lock the group.</b>")
+    except Exception as e:
+        await message.reply_text(f"<b>❌ Failed to lock! Error:</b> <code>{e}</code>")
 
 # 3. /unlock all Command
 @Client.on_message(filters.command("unlock") & filters.group)
 async def unlock_group(client, message):
     if not await is_admin(client, message):
-        return await message.reply_text("<b>⚠️ Only group admins can use this command!</b>")
+        return await message.reply_text("<b>⚠️ This command is only for group admins!</b>")
         
-    if len(message.command) > 1 and message.command[1].lower() == "all":
-        try:
-            await client.set_chat_permissions(
-                message.chat.id, 
-                ChatPermissions(
-                    can_send_messages=True,
-                    can_send_media_messages=True,
-                    can_send_other_messages=True,
-                    can_add_web_page_previews=True
-                )
-            )
-            await message.reply_text("<b>🔓 Group Unlocked! Everyone can send messages now.</b>")
-        except Exception as e:
-            await message.reply_text(f"<b>❌ Error: {e}</b>")
+    if len(message.command) < 2 or message.command[1].lower() != "all":
+        return await message.reply_text("<b>⚠️ Incorrect Usage!</b>\n\n<b>Example:</b> Type <code>/unlock all</code> to unlock the group and allow members to send messages.")
 
-# 4. /mute Command (Reply, ID, or Username)
+    try:
+        await client.set_chat_permissions(
+            message.chat.id, 
+            ChatPermissions(
+                can_send_messages=True,
+                can_send_media_messages=True,
+                can_send_other_messages=True,
+                can_add_web_page_previews=True
+            )
+        )
+        await message.reply_text("<b>🔓 Group Unlocked! Everyone can send messages now.</b>")
+    except ChatAdminRequired:
+        await message.reply_text("<b>❌ Error: I don't have 'Restrict Members' permission to unlock the group.</b>")
+    except Exception as e:
+        await message.reply_text(f"<b>❌ Failed to unlock! Error:</b> <code>{e}</code>")
+
+# 4. /mute Command
 @Client.on_message(filters.command("mute") & filters.group)
 async def mute_user(client, message):
     if not await is_admin(client, message):
-        return await message.reply_text("<b>⚠️ Only group admins can use this command!</b>")
+        return await message.reply_text("<b>⚠️ This command is only for group admins!</b>")
     
     target_user = None
 
@@ -1700,20 +1719,30 @@ async def mute_user(client, message):
         else:
             target_user = target_arg
     else:
-        return await message.reply_text("<b>⚠️ Reply to a user's message, or provide their ID/Username to mute them.</b>\nExample: <code>/mute @username</code> or <code>/mute 123456789</code>")
+        return await message.reply_text(
+            "<b>⚠️ You didn't specify who to mute!</b>\n\n"
+            "<b>How to use it (3 ways):</b>\n"
+            "1. Reply to their message and type <code>/mute</code>\n"
+            "2. Type their username: <code>/mute @username</code>\n"
+            "3. Type their ID: <code>/mute 123456789</code>"
+        )
 
     try:
         user = await client.get_users(target_user)
         await client.restrict_chat_member(message.chat.id, user.id, ChatPermissions(can_send_messages=False))
-        await message.reply_text(f"<b>🔇 Muted {user.mention} successfully!</b>")
+        await message.reply_text(f"<b>🔇 Muted {user.mention} successfully! They can't send messages now.</b>")
+    except UserAdminInvalid:
+        await message.reply_text("<b>❌ Error: I cannot mute an admin!</b>")
+    except ChatAdminRequired:
+        await message.reply_text("<b>❌ Error: I need 'Restrict Members' permission to mute someone.</b>")
     except Exception as e:
-        await message.reply_text(f"<b>❌ Failed to mute! Make sure I have restrict rights, the user is in the group, and is not an admin.\nError:</b> <code>{e}</code>")
+        await message.reply_text(f"<b>❌ Failed to mute! User might not be in the group.\nError:</b> <code>{e}</code>")
 
-# 5. /unmute Command (Reply, ID, or Username)
+# 5. /unmute Command
 @Client.on_message(filters.command("unmute") & filters.group)
 async def unmute_user(client, message):
     if not await is_admin(client, message):
-        return await message.reply_text("<b>⚠️ Only group admins can use this command!</b>")
+        return await message.reply_text("<b>⚠️ This command is only for group admins!</b>")
     
     target_user = None
 
@@ -1726,7 +1755,13 @@ async def unmute_user(client, message):
         else:
             target_user = target_arg
     else:
-        return await message.reply_text("<b>⚠️ Reply to a user's message, or provide their ID/Username to unmute them.</b>\nExample: <code>/unmute @username</code>")
+        return await message.reply_text(
+            "<b>⚠️ You didn't specify who to unmute!</b>\n\n"
+            "<b>How to use it (3 ways):</b>\n"
+            "1. Reply to their message and type <code>/unmute</code>\n"
+            "2. Type their username: <code>/unmute @username</code>\n"
+            "3. Type their ID: <code>/unmute 123456789</code>"
+        )
 
     try:
         user = await client.get_users(target_user)
@@ -1740,21 +1775,19 @@ async def unmute_user(client, message):
                 can_add_web_page_previews=True
             )
         )
-        await message.reply_text(f"<b>🔊 Unmuted {user.mention} successfully!</b>")
+        await message.reply_text(f"<b>🔊 Unmuted {user.mention} successfully! They can send messages again.</b>")
+    except ChatAdminRequired:
+        await message.reply_text("<b>❌ Error: I need 'Restrict Members' permission to unmute someone.</b>")
     except Exception as e:
         await message.reply_text(f"<b>❌ Failed to unmute!\nError:</b> <code>{e}</code>")
 
-# 6. PM Alert for Group Commands (যদি কেউ বটের ইনবক্সে কমান্ড দেয়)
+# 6. PM Alert for Group Commands
 @Client.on_message(filters.command(["pin", "lock", "unlock", "mute", "unmute"]) & filters.private)
 async def pm_group_commands_alert(client, message):
     await message.reply_text(
-        f"<b>⚠️ ʜᴇʟʟᴏ {message.from_user.mention},\n\n"
-        f"এই কমান্ডটি (<code>/{message.command[0]}</code>) শুধুমাত্র গ্রুপের অ্যাডমিনদের জন্য তৈরি করা হয়েছে!\n\n"
-        f"দয়া করে আমাকে আপনার গ্রুপে অ্যাডমিন হিসেবে যুক্ত করুন এবং শুধুমাত্র গ্রুপেই এই কমান্ডগুলো ব্যবহার করুন। 😇</b>",
+        f"<b>⚠️ হ্যালো {message.from_user.mention},\n\n"
+        f"আপনি যে কমান্ডটি (<code>/{message.command[0]}</code>) দিয়েছেন, সেটি শুধুমাত্র গ্রুপের জন্য তৈরি করা হয়েছে!\n\n"
+        f"👉 এই কমান্ডগুলো ব্যবহার করতে বটটিকে আপনার গ্রুপে অ্যাডমিন করুন এবং গ্রুপে গিয়ে কমান্ড দিন।</b>",
         quote=True
     )
 # ==================================================== #
-
-
-
-
