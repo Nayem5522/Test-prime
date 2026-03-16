@@ -1635,19 +1635,17 @@ async def is_admin(client, message):
     except:
         return False
 
-# 1. /pin & /pin loud Command
-@Client.on_message(filters.command("pin") & filters.group)
+# 1. /pin & /pin_loud Command
+@Client.on_message(filters.command(["pin", "pin_loud"]) & filters.group)
 async def pin_message(client, message):
     if not await is_admin(client, message):
         return await message.reply_text("<b>⚠️ This command is only for group admins!</b>")
     
     if not message.reply_to_message:
-        return await message.reply_text("<b>⚠️ Error: You must reply to a message to pin it.</b>\n\n<b>Example:</b> Reply to any message and type <code>/pin</code> or <code>/pin loud</code>")
+        return await message.reply_text("<b>⚠️ Error: You must reply to a message to pin it.</b>\n\n<b>Example:</b> Reply to any message and type <code>/pin</code> or <code>/pin_loud</code>")
     
-    # Check if they want a loud pin
-    is_loud = False
-    if len(message.command) > 1 and message.command[1].lower() == "loud":
-        is_loud = True
+    # Check if they want a loud pin based on the command used
+    is_loud = message.command[0].lower() == "pin_loud"
 
     try:
         await message.reply_to_message.pin(disable_notification=not is_loud)
@@ -1660,14 +1658,11 @@ async def pin_message(client, message):
     except Exception as e:
         await message.reply_text(f"<b>❌ Failed to pin! Error:</b> <code>{e}</code>")
 
-# 2. /lock all Command
-@Client.on_message(filters.command("lock") & filters.group)
+# 2. /lock_all Command
+@Client.on_message(filters.command("lock_all") & filters.group)
 async def lock_group(client, message):
     if not await is_admin(client, message):
         return await message.reply_text("<b>⚠️ This command is only for group admins!</b>")
-        
-    if len(message.command) < 2 or message.command[1].lower() != "all":
-        return await message.reply_text("<b>⚠️ Incorrect Usage!</b>\n\n<b>Example:</b> Type <code>/lock all</code> to lock the group so normal members cannot send messages.")
 
     try:
         await client.set_chat_permissions(message.chat.id, ChatPermissions(can_send_messages=False))
@@ -1677,14 +1672,11 @@ async def lock_group(client, message):
     except Exception as e:
         await message.reply_text(f"<b>❌ Failed to lock! Error:</b> <code>{e}</code>")
 
-# 3. /unlock all Command
-@Client.on_message(filters.command("unlock") & filters.group)
+# 3. /unlock_all Command
+@Client.on_message(filters.command("unlock_all") & filters.group)
 async def unlock_group(client, message):
     if not await is_admin(client, message):
         return await message.reply_text("<b>⚠️ This command is only for group admins!</b>")
-        
-    if len(message.command) < 2 or message.command[1].lower() != "all":
-        return await message.reply_text("<b>⚠️ Incorrect Usage!</b>\n\n<b>Example:</b> Type <code>/unlock all</code> to unlock the group and allow members to send messages.")
 
     try:
         await client.set_chat_permissions(
@@ -1782,7 +1774,7 @@ async def unmute_user(client, message):
         await message.reply_text(f"<b>❌ Failed to unmute!\nError:</b> <code>{e}</code>")
 
 # 6. PM Alert for Group Commands
-@Client.on_message(filters.command(["pin", "lock", "unlock", "mute", "unmute"]) & filters.private)
+@Client.on_message(filters.command(["pin", "pin_loud", "lock_all", "unlock_all", "mute", "unmute"]) & filters.private)
 async def pm_group_commands_alert(client, message):
     await message.reply_text(
         f"<b>⚠️ হ্যালো {message.from_user.mention},\n\n"
