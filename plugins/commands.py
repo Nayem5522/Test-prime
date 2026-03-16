@@ -1644,7 +1644,6 @@ async def pin_message(client, message):
     if not message.reply_to_message:
         return await message.reply_text("<b>⚠️ Error: You must reply to a message to pin it.</b>\n\n<b>Example:</b> Reply to any message and type <code>/pin</code> or <code>/pin_loud</code>")
     
-    # Check if they want a loud pin based on the command used
     is_loud = message.command[0].lower() == "pin_loud"
 
     try:
@@ -1656,7 +1655,10 @@ async def pin_message(client, message):
     except ChatAdminRequired:
         await message.reply_text("<b>❌ Error: I don't have the 'Pin Messages' permission in this group.</b>")
     except Exception as e:
-        await message.reply_text(f"<b>❌ Failed to pin! Error:</b> <code>{e}</code>")
+        if "CHAT_NOT_MODIFIED" in str(e):
+            await message.reply_text("<b>⚠️ This message is already pinned!</b>")
+        else:
+            await message.reply_text(f"<b>❌ Failed to pin! Error:</b> <code>{e}</code>")
 
 # 2. /lock_all Command
 @Client.on_message(filters.command("lock_all") & filters.group)
@@ -1670,7 +1672,10 @@ async def lock_group(client, message):
     except ChatAdminRequired:
         await message.reply_text("<b>❌ Error: I don't have 'Restrict Members' permission to lock the group.</b>")
     except Exception as e:
-        await message.reply_text(f"<b>❌ Failed to lock! Error:</b> <code>{e}</code>")
+        if "CHAT_NOT_MODIFIED" in str(e):
+            await message.reply_text("<b>⚠️ The group is already locked!</b>")
+        else:
+            await message.reply_text(f"<b>❌ Failed to lock! Error:</b> <code>{e}</code>")
 
 # 3. /unlock_all Command
 @Client.on_message(filters.command("unlock_all") & filters.group)
@@ -1679,20 +1684,15 @@ async def unlock_group(client, message):
         return await message.reply_text("<b>⚠️ This command is only for group admins!</b>")
 
     try:
-        await client.set_chat_permissions(
-            message.chat.id, 
-            ChatPermissions(
-                can_send_messages=True,
-                can_send_media_messages=True,
-                can_send_other_messages=True,
-                can_add_web_page_previews=True
-            )
-        )
+        await client.set_chat_permissions(message.chat.id, ChatPermissions(can_send_messages=True))
         await message.reply_text("<b>🔓 Group Unlocked! Everyone can send messages now.</b>")
     except ChatAdminRequired:
         await message.reply_text("<b>❌ Error: I don't have 'Restrict Members' permission to unlock the group.</b>")
     except Exception as e:
-        await message.reply_text(f"<b>❌ Failed to unlock! Error:</b> <code>{e}</code>")
+        if "CHAT_NOT_MODIFIED" in str(e):
+            await message.reply_text("<b>⚠️ The group is already unlocked!</b>")
+        else:
+            await message.reply_text(f"<b>❌ Failed to unlock! Error:</b> <code>{e}</code>")
 
 # 4. /mute Command
 @Client.on_message(filters.command("mute") & filters.group)
@@ -1728,7 +1728,10 @@ async def mute_user(client, message):
     except ChatAdminRequired:
         await message.reply_text("<b>❌ Error: I need 'Restrict Members' permission to mute someone.</b>")
     except Exception as e:
-        await message.reply_text(f"<b>❌ Failed to mute! User might not be in the group.\nError:</b> <code>{e}</code>")
+        if "CHAT_NOT_MODIFIED" in str(e):
+            await message.reply_text(f"<b>⚠️ User is already muted!</b>")
+        else:
+            await message.reply_text(f"<b>❌ Failed to mute!\nError:</b> <code>{e}</code>")
 
 # 5. /unmute Command
 @Client.on_message(filters.command("unmute") & filters.group)
@@ -1757,21 +1760,15 @@ async def unmute_user(client, message):
 
     try:
         user = await client.get_users(target_user)
-        await client.restrict_chat_member(
-            message.chat.id, 
-            user.id, 
-            ChatPermissions(
-                can_send_messages=True,
-                can_send_media_messages=True,
-                can_send_other_messages=True,
-                can_add_web_page_previews=True
-            )
-        )
+        await client.restrict_chat_member(message.chat.id, user.id, ChatPermissions(can_send_messages=True))
         await message.reply_text(f"<b>🔊 Unmuted {user.mention} successfully! They can send messages again.</b>")
     except ChatAdminRequired:
         await message.reply_text("<b>❌ Error: I need 'Restrict Members' permission to unmute someone.</b>")
     except Exception as e:
-        await message.reply_text(f"<b>❌ Failed to unmute!\nError:</b> <code>{e}</code>")
+        if "CHAT_NOT_MODIFIED" in str(e):
+            await message.reply_text(f"<b>⚠️ User is already unmuted!</b>")
+        else:
+            await message.reply_text(f"<b>❌ Failed to unmute!\nError:</b> <code>{e}</code>")
 
 # 6. PM Alert for Group Commands
 @Client.on_message(filters.command(["pin", "pin_loud", "lock_all", "unlock_all", "mute", "unmute"]) & filters.private)
