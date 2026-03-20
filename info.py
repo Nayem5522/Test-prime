@@ -87,7 +87,7 @@ PUBLIC_FILE_CHANNEL = environ.get('PUBLIC_FILE_CHANNEL', 'pri_Nay1') # Public Ch
 GRP_LNK = environ.get('GRP_LNK', 'https://t.me/cinelolmovie')
 CHNL_LNK = environ.get('CHNL_LNK', 'https://t.me/MHBD_Movies')
 MAINCHANL_LNK = environ.get('MAINCHANL_LNK', 'https://t.me/mhbd_official')
-PSUP_LNK = environ.get('PSUP_LNK', 'https://t.me/first_uploading_contents')
+PSUP_LNK = environ.get('PSUP_LNK', 'https://t.me/mhbd_official')
 TUTORIAL = environ.get('TUTORIAL', 'https://t.me/How_To_download_system/3')
 SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'First_Uploading_Content') # Support Chat Link Without https:// or @
 
