@@ -40,7 +40,7 @@ files = glob.glob(ppath)
 
 async def start():
     print('\n')
-    print('Initalizing Your Bot')
+    print('Initalizing Your Bot...')
     
     # Start the Bot Client
     await TechVJBot.start()
@@ -48,19 +48,20 @@ async def start():
     bot_info = await TechVJBot.get_me()
     await initialize_clients()
     
+    # Plugin importing logic
     for name in files:
-        with open(name) as a:
-            patt = Path(a.name)
-            plugin_name = patt.stem.replace(".py", "")
-            plugins_dir = Path(f"plugins/{plugin_name}.py")
-            import_path = "plugins.{}".format(plugin_name)
-            
-            # সংশোধিত মডিউল লোডিং সিস্টেম
-            spec = importlib.util.spec_from_file_location(import_path, plugins_dir)
+        patt = Path(name)
+        plugin_name = patt.stem
+        import_path = f"plugins.{plugin_name}"
+        
+        try:
+            spec = importlib.util.spec_from_file_location(import_path, name)
             load = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(load)
-            sys.modules["plugins." + plugin_name] = load
-            print("Tech VJ Imported => " + plugin_name)
+            sys.modules[import_path] = load
+            print(f"Tech VJ Imported => {plugin_name}")
+        except Exception as e:
+            print(f"Failed to load {plugin_name}: {e}")
             
     if ON_HEROKU or URL:
         asyncio.create_task(ping_server())
@@ -91,21 +92,22 @@ async def start():
         await restart_bots()
         print("Restarted All Clone Bots.")
         
-    # Web Server Start with keepalive settings
+    # Web Server Start logic fix
     app = web.AppRunner(await web_server())
     await app.setup()
     bind_address = "0.0.0.0"
-    site = web.TCPSite(app, bind_address, PORT, keepalive_timeout=75)
+    site = web.TCPSite(app, bind_address, int(PORT))
     await site.start()
     
     print(f"Web Server Started on Port {PORT}")
     await idle()
-    await TechVJBot.stop()
 
 if __name__ == '__main__':
     try:
-        # লুপ এরর ফিক্স করার জন্য নতুন পদ্ধতি
         loop = asyncio.get_event_loop()
         loop.run_until_complete(start())
     except KeyboardInterrupt:
         logging.info('Service Stopped Bye 👋')
+    except Exception as e:
+        logging.error(f"Critical Error: {e}")
+        
