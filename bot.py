@@ -53,12 +53,14 @@ async def start():
             plugins_dir = Path(f"plugins/{plugin_name}.py")
             import_path = "plugins.{}".format(plugin_name)
             spec = importlib.util.spec_from_file_location(import_path, plugins_dir)
-            load = importlib.util.module_from_spec(spec)
+            load = importlib.util.module_spec_from_file(spec)
             spec.loader.exec_module(load)
             sys.modules["plugins." + plugin_name] = load
             print("Tech VJ Imported => " + plugin_name)
-    if ON_HEROKU:
+            
+    if ON_HEROKU or URL:
         asyncio.create_task(ping_server())
+        
     b_users, b_chats = await db.get_banned()
     temp.BANNED_USERS = b_users
     temp.BANNED_CHATS = b_chats
@@ -75,14 +77,20 @@ async def start():
     now = datetime.now(tz)
     time = now.strftime("%H:%M:%S %p")
     await TechVJBot.send_message(chat_id=LOG_CHANNEL, text=script.RESTART_TXT.format(today, time))
+    
     if CLONE_MODE == True:
         print("Restarting All Clone Bots.......")
         await restart_bots()
         print("Restarted All Clone Bots.")
+        
+    # Web Server Start with keepalive settings
     app = web.AppRunner(await web_server())
     await app.setup()
     bind_address = "0.0.0.0"
-    await web.TCPSite(app, bind_address, PORT).start()
+    # Added keepalive_timeout to fix upstream connect errors
+    site = web.TCPSite(app, bind_address, PORT, keepalive_timeout=75)
+    await site.start()
+    print(f"Web Server Started on Port {PORT}")
     await idle()
 
 
@@ -91,4 +99,3 @@ if __name__ == '__main__':
         loop.run_until_complete(start())
     except KeyboardInterrupt:
         logging.info('Service Stopped Bye 👋')
-
