@@ -37,23 +37,27 @@ from TechVJ.bot.clients import initialize_clients
 
 ppath = "plugins/*.py"
 files = glob.glob(ppath)
-TechVJBot.start()
-loop = asyncio.get_event_loop()
-
 
 async def start():
     print('\n')
     print('Initalizing Your Bot')
+    
+    # Start the Bot Client
+    await TechVJBot.start()
+    
     bot_info = await TechVJBot.get_me()
     await initialize_clients()
+    
     for name in files:
         with open(name) as a:
             patt = Path(a.name)
             plugin_name = patt.stem.replace(".py", "")
             plugins_dir = Path(f"plugins/{plugin_name}.py")
             import_path = "plugins.{}".format(plugin_name)
+            
+            # সংশোধিত মডিউল লোডিং সিস্টেম
             spec = importlib.util.spec_from_file_location(import_path, plugins_dir)
-            load = importlib.util.module_spec_from_file(spec)
+            load = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(load)
             sys.modules["plugins." + plugin_name] = load
             print("Tech VJ Imported => " + plugin_name)
@@ -65,18 +69,22 @@ async def start():
     temp.BANNED_USERS = b_users
     temp.BANNED_CHATS = b_chats
     await Media.ensure_indexes()
+    
     me = await TechVJBot.get_me()
     temp.BOT = TechVJBot
     temp.ME = me.id
     temp.U_NAME = me.username
     temp.B_NAME = me.first_name
+    
     logging.info(LOG_STR)
     logging.info(script.LOGO)
+    
     tz = pytz.timezone('Asia/Kolkata')
     today = date.today()
     now = datetime.now(tz)
-    time = now.strftime("%H:%M:%S %p")
-    await TechVJBot.send_message(chat_id=LOG_CHANNEL, text=script.RESTART_TXT.format(today, time))
+    time_str = now.strftime("%H:%M:%S %p")
+    
+    await TechVJBot.send_message(chat_id=LOG_CHANNEL, text=script.RESTART_TXT.format(today, time_str))
     
     if CLONE_MODE == True:
         print("Restarting All Clone Bots.......")
@@ -87,15 +95,17 @@ async def start():
     app = web.AppRunner(await web_server())
     await app.setup()
     bind_address = "0.0.0.0"
-    # Added keepalive_timeout to fix upstream connect errors
     site = web.TCPSite(app, bind_address, PORT, keepalive_timeout=75)
     await site.start()
+    
     print(f"Web Server Started on Port {PORT}")
     await idle()
-
+    await TechVJBot.stop()
 
 if __name__ == '__main__':
     try:
+        # লুপ এরর ফিক্স করার জন্য নতুন পদ্ধতি
+        loop = asyncio.get_event_loop()
         loop.run_until_complete(start())
     except KeyboardInterrupt:
         logging.info('Service Stopped Bye 👋')
