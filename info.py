@@ -61,7 +61,7 @@ DATABASE_NAME = environ.get('DATABASE_NAME', "")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'techvjcollection')
 
 # Premium And Referal Settings
-PREMIUM_AND_REFERAL_MODE = bool(environ.get('PREMIUM_AND_REFERAL_MODE', True)) # Set Ture Or False
+PREMIUM_AND_REFERAL_MODE = bool(environ.get('PREMIUM_AND_REFERAL_MODE', False)) # Set Ture Or False
 
 # If PREMIUM_AND_REFERAL_MODE is True Then Fill Below Variable, If Flase Then No Need To Fill.
 REFERAL_COUNT = int(environ.get('REFERAL_COUNT', '20')) # number of referal count
@@ -85,8 +85,8 @@ PUBLIC_FILE_CHANNEL = environ.get('PUBLIC_FILE_CHANNEL', 'pri_Nay1') # Public Ch
 
 # Links
 GRP_LNK = environ.get('GRP_LNK', 'https://t.me/+OG3sftDEbZ9kMzFl')
-CHNL_LNK = environ.get('CHNL_LNK', 'https://t.me/PrimeCineHub')
-MAINCHANL_LNK = environ.get('MAINCHANL_LNK', 'https://t.me/PrimeCineZone')
+CHNL_LNK = environ.get('CHNL_LNK', 'https://t.me/PrimeCineZone')
+MAINCHANL_LNK = environ.get('MAINCHANL_LNK', 'https://t.me/PrimeCineHuB')
 PSUP_LNK = environ.get('PSUP_LNK', 'https://t.me/Prime_Support_Group')
 TUTORIAL = environ.get('TUTORIAL', '')
 SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'Prime_Support_Group') # Support Chat Link Without https:// or @
