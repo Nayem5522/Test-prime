@@ -12,7 +12,7 @@ class script(object):
 ɪᴛ ɪs ᴇᴀsʏ ᴛᴏ ᴜsᴇ ᴍᴇ, ᴊᴜsᴛ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴍᴀᴋᴇ ᴍᴇ ᴀs ᴀᴅᴍɪɴ
 
 
-<blockquote>‣ 🌿 ᴍʏ ᴏᴡɴᴇʀ : <a href=https://t.me/Master3809>🎩 ᴍʀ.ᴍᴀsᴛᴇʀ 🎩</a></blockquote></b>"""
+<blockquote>‣ 🌿 ᴍʏ ᴏᴡɴᴇʀ : <a href=https://t.me/PRIMe_Nayem>𓆩 ᴍʀ.ᴘʀɪᴍᴇ 𓆪</a></blockquote></b>"""
 
     CLONE_START_TXT = """<b><blockquote>ʜᴇʟʟᴏ {}, ᴍʏ ɴᴀᴍᴇ <a href=https://t.me/{}>{}</a></blockquote>
     
@@ -24,7 +24,7 @@ Hᴇʀᴇ Is Tʜᴇ Hᴇʟᴘ Fᴏʀ Mʏ Cᴏᴍᴍᴀɴᴅs.</b>"""
     ABOUT_TXT = """<b><blockquote>⍟───[ ᴍy ᴅᴇᴛᴀɪʟꜱ ]───⍟</blockquote>
     
 ‣ ᴍʏ ɴᴀᴍᴇ : <a href=https://t.me/{}>{}</a>
-‣ ᴀᴅᴍɪɴ  : <a href='https://t.me/Master3809'>🎩 ᴍʀ.ᴍᴀsᴛᴇʀ 🎩</a> 
+‣ ᴀᴅᴍɪɴ  : <a href='https://t.me/Prime_Nayem'>𓆩 ᴍʀ.ᴘʀɪᴍᴇ 𓆪</a> 
 ‣ ᴍʏ ʙᴇsᴛ ғʀɪᴇɴᴅ : <a href='tg://settings'>ᴛʜɪs ᴘᴇʀsᴏɴ</a> 
 ‣ ᴅᴇᴠᴇʟᴏᴘᴇʀ : <a href='https://t.me/MR_PRIME_SUPREME'>ᴍʀ.ᴘʀɪᴍᴇ</a> 
 ‣ ʙᴏᴛ sᴇʀᴠᴇʀ : <a href='https://t.me/PrimeXBots'>ᴘʀɪᴍᴇXʙᴏᴛs</a> 
@@ -83,7 +83,7 @@ Cᴏᴍᴍᴀɴᴅs Aɴᴅ Usᴀɢᴇ:
 2. ᴛʜɪꜱ ʙᴏᴛ ꜱᴜᴘᴘᴏʀᴛꜱ ʙᴜᴛᴛᴏɴꜱ ᴡɪᴛʜ ᴀɴʏ ᴛᴇʟᴇɢʀᴀᴍ ᴍᴇᴅɪᴀ ᴛʏᴘᴇ.
 3. ʙᴜᴛᴛᴏɴꜱ ꜱʜᴏᴜʟᴅ ʙᴇ ᴘʀᴏᴘᴇʀʟʏ ᴘᴀʀꜱᴇᴅ ᴀꜱ ᴍᴀʀᴋᴅᴏᴡɴ ꜰᴏʀᴍᴀᴛ
 <b>ᴜʀʟ ʙᴜᴛᴛᴏɴꜱ:</b>
-<code>[Button Text](buttonurl:https://t.me/Prime_Movies4U)</code>
+<code>[Button Text](buttonurl:https://t.me/PrimeCineZone)</code>
 <b>ᴀʟᴇʀᴛ ʙᴜᴛᴛᴏɴꜱ:</b>
 <code>[Button Text](buttonalert:ᴛʜɪꜱ ɪꜱ ᴀɴ ᴀʟᴇʀᴛ ᴍᴇꜱꜱᴀɢᴇ)</code>"""
 
@@ -235,13 +235,13 @@ Nᴀᴍᴇ - {}
 
 𝗠𝗲𝘀𝘀𝗮𝗴𝗲 <b>: {}</b>"""
 
-    CAPTION = """📂 <b>Filename:</b> {file_name}
+    CAPTION = """📂 <b>Filename:</b>@PrimeCineHuB {file_name}
  
  <b> Size ⚙️: {file_size}</b>
  
  •────•────✦✗✦───•────•
  
- <b>ᴊᴏɪɴ ɴᴏᴡ ➠ :</b> <a href='https://t.me/MHBD_Movies'>ᴍʀ.ʙᴀᴄᴋ-ᴜᴘ</a>"""
+ <b>ᴊᴏɪɴ ɴᴏᴡ ➠ :</b> <a href='https://t.me/PrimeCineZone'>@PʀɪᴍᴇCɪɴᴇZᴏɴᴇ</a>"""
     
     IMDB_TEMPLATE_TXT = """
 <b>Query: {qurey}
@@ -722,9 +722,9 @@ Connect Me 👉 t.me/Prime_Admin_Nayem
     DEVELOPER_TXT = """
 special Thanks To ❤️ Developers -
 
--Dev 1 [Owner of this bot ]<a href='https://t.me/Prime_Nayem'>Prime</a>
+-Dev 1 [Owner of this bot ]<a href='https://t.me/Prime_Nayem'>𓆩 ᴍʀ.ᴘʀɪᴍᴇ 𓆪</a>
 
--Dev 2 <a href='https://t.me/Prime_Movies4U'>PRIME</a>
+-Dev 2 <a href='https://t.me/Prime_Admin_Support_ProBot'>PRIME</a>
 
 -Dev 3 <a href='https://t.me/+OG3sftDEbZ9kMzFl>Prime Movie Request Group</a>
 
