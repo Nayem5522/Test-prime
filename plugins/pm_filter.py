@@ -145,23 +145,89 @@ async def give_filter(client, message):
 @Client.on_message(filters.private & filters.text & filters.incoming)
 async def pm_text(bot, message):
     content = message.text
-    user = message.from_user.first_name
+    user = message.from_user.mention
+    user_name = message.from_user.first_name
     user_id = message.from_user.id
-    
-    # কমান্ড এবং হ্যাশট্যাগ ইগনোর করবে
-    if content.startswith("/") or content.startswith("#"): return 
-    
-    # --- ম্যাজিক লজিক শুরু ---
-    # এখানে আমরা সরাসরি ওয়ার্নিং মেসেজ দিয়ে দিচ্ছি, settings চেক করছি না।
-    # এর ফলে ইউজার হাতে টাইপ করলেই এই মেসেজ পাবে।
-    # কিন্তু commands.py যখন auto_filter কল করবে, তখন এই ফাংশনটি কল হয় না, তাই লিংক কাজ করবে।
-    
-    await message.reply_text(
-        text=f"<b>ʜᴇʏ {user} 😍 ,\n\nʏᴏᴜ ᴄᴀɴ'ᴛ ɢᴇᴛ ᴍᴏᴠɪᴇs ꜰʀᴏᴍ ʜᴇʀᴇ. ʀᴇǫᴜᴇsᴛ ɪᴛ ɪɴ ᴏᴜʀ <a href=https://t.me/+OG3sftDEbZ9kMzFl>ᴍᴏᴠɪᴇ ɢʀᴏᴜᴘ</a> ᴏʀ ᴄʟɪᴄᴋ ʀᴇǫᴜᴇsᴛ ʜᴇʀᴇ ʙᴜᴛᴛᴏɴ ʙᴇʟᴏᴡ 👇</b>",
-        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("📝 ʀᴇǫᴜᴇsᴛ ʜᴇʀᴇ ", url=f"https://t.me/+OG3sftDEbZ9kMzFl")]])
+
+    # Ignore Commands & Hashtags
+    if content.startswith("/") or content.startswith("#"):
+        return
+
+    PHOTO = "https://i.ibb.co/Ps9nyrtH/photo-2026-07-28-01-21-25-7667382888198832152.jpg"   # এখানে আপনার পোস্টারের URL দিন
+
+    caption = f"""
+<b>👋 Hello {user},
+
+╭───────────────⍟
+│ 🎬 <b>Movie Request Center</b>
+╰───────────────⍟
+
+❌ <b>Movie requests are not accepted in this private chat.</b>
+
+🔎 Please visit any of our <b>Movie Request Groups</b> below.
+
+✨ You can easily:
+➜ Search your favorite Movies & Web Series.
+➜ Request any unavailable content.
+➜ Get updates from our community.
+
+━━━━━━━━━━━━━━━━━━━━
+
+<b>বাংলা</b>
+
+❌ <b>এই প্রাইভেট চ্যাটে মুভি রিকোয়েস্ট গ্রহণ করা হয় না।</b>
+
+🔍 অনুগ্রহ করে নিচের যেকোনো <b>Movie Request Group</b>-এ যোগ দিন।
+
+✨ সেখানে আপনি—
+• আপনার পছন্দের মুভি বা ওয়েব সিরিজ সার্চ করতে পারবেন।
+• না পেলে একই গ্রুপে রিকোয়েস্ট করতে পারবেন।
+• নতুন আপডেটও সহজেই পেয়ে যাবেন।
+
+━━━━━━━━━━━━━━━━━━━━
+
+<b>👇 নিচের যেকোনো একটি গ্রুপে জয়েন হয়ে নিন এবং সেখানে আপনার প্রিয় কনটেন্টটির নাম লিখে সার্চ করুন ✅🎞️📌👇</b>
+</b>
+"""
+
+    buttons = InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(
+                    "🎬 Movie Request Group ①",
+                    url="https://t.me/Movies_Request_Group_BD"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "🎥 Movie Request Group ②",
+                    url="https://t.me/+OG3sftDEbZ9kMzFl"
+                )
+            ]
+        ]
     )
-    # লগ চ্যানেলে মেসেজ পাঠানো (অপশনাল)
-    await bot.send_message(chat_id=LOG_CHANNEL, text=f"<b>#𝐏𝐌_𝐌𝐒𝐆\n\nNᴀᴍᴇ : {user}\n\nID : {user_id}\n\nMᴇssᴀɢᴇ : {content}</b>")
+
+    await message.reply_photo(
+        photo=PHOTO,
+        caption=caption,
+        reply_markup=buttons
+    )
+
+    # Log Channel
+    await bot.send_message(
+        chat_id=LOG_CHANNEL,
+        text=f"""
+<b>📩 #PM_MESSAGE
+
+👤 User : {user_name}
+🆔 User ID : <code>{user_id}</code>
+
+💬 Message :
+<code>{content}</code>
+</b>
+"""
+    )
+
     return
 
 @Client.on_callback_query(filters.regex(r"^next"))
