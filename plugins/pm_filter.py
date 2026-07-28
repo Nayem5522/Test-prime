@@ -156,37 +156,25 @@ async def pm_text(bot, message):
     PHOTO = "https://i.ibb.co/Ps9nyrtH/photo-2026-07-28-01-21-25-7667382888198832152.jpg"   # এখানে আপনার পোস্টারের URL দিন
 
     caption = f"""
-<b>👋 Hello {user},
+<b>👋 Hello {user}
 
-╭───────────────⍟
-│ 🎬 <b>Movie Request Center</b>
-╰───────────────⍟
+🎬 <b>Movie Request Center</b>
 
-❌ <b>Movie requests are not accepted in this private chat.</b>
+❌ Movie requests are not accepted in Private Chat.
 
-🔎 Please visit any of our <b>Movie Request Groups</b> below.
+🔎 Join any of our <b>Movie Request Groups</b> below.
+✅ Search your favorite Movie/Web Series.
+📩 If unavailable, simply send a Request.
 
-✨ You can easily:
-➜ Search your favorite Movies & Web Series.
-➜ Request any unavailable content.
-➜ Get updates from our community.
+━━━━━━━━━━━━━━━━
 
-━━━━━━━━━━━━━━━━━━━━
+🇧🇩 <b>মুভি বা ওয়েব সিরিজ খুঁজছেন?</b>
 
-<b>বাংলা</b>
+🔎 অনুগ্রহ করে নিচের যেকোনো <b>Movie Request Group</b>-এ যোগ দিয়ে আপনার পছন্দের মুভি বা ওয়েব সিরিজ সার্চ করুন।
 
-❌ <b>এই প্রাইভেট চ্যাটে মুভি রিকোয়েস্ট গ্রহণ করা হয় না।</b>
+✨ সর্বশেষ মুভি, ওয়েব সিরিজ এবং নিয়মিত আপডেট পেতে আমাদের গ্রুপের সাথেই থাকুন।
 
-🔍 অনুগ্রহ করে নিচের যেকোনো <b>Movie Request Group</b>-এ যোগ দিন।
-
-✨ সেখানে আপনি—
-• আপনার পছন্দের মুভি বা ওয়েব সিরিজ সার্চ করতে পারবেন।
-• না পেলে একই গ্রুপে রিকোয়েস্ট করতে পারবেন।
-• নতুন আপডেটও সহজেই পেয়ে যাবেন।
-
-━━━━━━━━━━━━━━━━━━━━
-
-<b>👇 নিচের যেকোনো একটি গ্রুপে জয়েন হয়ে নিন এবং সেখানে আপনার প্রিয় কনটেন্টটির নাম লিখে সার্চ করুন ✅🎞️📌👇</b>
+👇 <b>নিচের যেকোনো একটি গ্রুপে যোগ দিন</b>
 </b>
 """
 
